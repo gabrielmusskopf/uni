@@ -10,5 +10,6 @@ def isPrimo(num):
   return True
 
 while n := int(input("Digite um número: ")):
-  print("É primo.\n" if isPrimo(n) else "Não é primo.\n")
+  if n < 0:
+    print("É primo.\n" if isPrimo(n) else "Não é primo.\n")
   
