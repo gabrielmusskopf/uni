@@ -9,7 +9,6 @@ def isPrimo(num):
     aux += 1
   return True
 
-while True:
-  n = int(input("Digite um número: "))
+while n := int(input("Digite um número: ")):
   print("É primo.\n" if isPrimo(n) else "Não é primo.\n")
   
