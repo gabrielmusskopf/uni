@@ -1,0 +1,6 @@
+
+N	java:S106"9Replace this use of System.out or System.err by a logger.(Œé°¸
+y
+java:S1157"cReplace these toUpperCase()/toLowerCase() and equals() calls with a single equalsIgnoreCase() call.(ýŒîÑ
+S	java:S106"9Replace this use of System.out or System.err by a logger.(£à÷…ÿÿÿÿÿ
+]	java:S125"<This block of commented-out lines of code should be removed.(ùÛÅõÿÿÿÿÿ8èÐ•è·0
