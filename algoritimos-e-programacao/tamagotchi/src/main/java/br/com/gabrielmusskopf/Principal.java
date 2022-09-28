@@ -1,34 +1,47 @@
 package br.com.gabrielmusskopf;
 
 import java.util.List;
-import java.util.Scanner;
+
+import br.com.gabrielmusskopf.comunicacao.ComunicacaoLog;
+import br.com.gabrielmusskopf.desejo.Desejo;
+import br.com.gabrielmusskopf.desejo.DesejoFactory;
 
 public class Principal {
 	private static final String TECLA_SAIDA = "Q";
 
 	public static void main(String[] args) {
-		var scanner = new Scanner(System.in);
 		var comunicador = new ComunicacaoLog();
 
-		System.out.println("Digite o nome do Tamagotchi:");
+		comunicador.comunicar("Digite o nome do Tamagotchi:");
+		var tamagotchi = new Tamagotchi(comunicador.lerLinha(), comunicador);
 
 		var jogo = new Jogo(config -> {
-			config.setAcoes(List.of(new DesejoDormir(comunicador)));
+			config.setDesejos(List.of(
+					DesejoFactory.criarDesejoDormir(comunicador),
+					DesejoFactory.criarDesejoComer(comunicador),
+					DesejoFactory.criarDesejoTedio(comunicador)
+			));
 			config.setComunicador(comunicador);
-			config.setTamagotchi(new Tamagotchi(scanner.nextLine(), comunicador));
+			config.setTamagotchi(tamagotchi);
 		});
+
+		tamagotchi.comunicarStatus();
 
 		jogo.iniciar();
 
 		var entrada = "";
-		while (!entrada.toUpperCase().equals(TECLA_SAIDA)){
-			var desejo = jogo.getAcao();
-			System.out.println(desejo.getComunicado());
+		while (!entrada.equalsIgnoreCase(TECLA_SAIDA) && jogo.existe()){
 
-			var opcao = scanner.nextInt();
-			jogo.executarAcao(desejo, opcao);
+			Desejo desejo;
+			do {
+				desejo = jogo.getAcao();
+				desejo.comunicado();
 
-			//entrada = scanner.nextLine();
+				var opcao = comunicador.lerInteiro();
+				jogo.executarAcao(desejo, opcao);
+
+			}while (jogo.temProximoDesejo());
+
 		}
 	}
 }
