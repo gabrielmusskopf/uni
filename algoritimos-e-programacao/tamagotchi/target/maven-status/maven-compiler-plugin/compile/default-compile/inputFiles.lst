@@ -1,0 +1,14 @@
+/home/gabrielgrahlmusskopf/unisinos/algoritimos-e-programacao/tamagotchi/src/main/java/br/com/gabrielmusskopf/tamagotchi/Tamagotchi.java
+/home/gabrielgrahlmusskopf/unisinos/algoritimos-e-programacao/tamagotchi/src/main/java/br/com/gabrielmusskopf/tamagotchi/comunicacao/ComunicacaoLog.java
+/home/gabrielgrahlmusskopf/unisinos/algoritimos-e-programacao/tamagotchi/src/main/java/br/com/gabrielmusskopf/tamagotchi/desejo/DesejoTedio.java
+/home/gabrielgrahlmusskopf/unisinos/algoritimos-e-programacao/tamagotchi/src/main/java/br/com/gabrielmusskopf/tamagotchi/desejo/Desejo.java
+/home/gabrielgrahlmusskopf/unisinos/algoritimos-e-programacao/tamagotchi/src/main/java/br/com/gabrielmusskopf/tamagotchi/Imagem.java
+/home/gabrielgrahlmusskopf/unisinos/algoritimos-e-programacao/tamagotchi/src/main/java/br/com/gabrielmusskopf/tamagotchi/comunicacao/Comunicador.java
+/home/gabrielgrahlmusskopf/unisinos/algoritimos-e-programacao/tamagotchi/src/main/java/br/com/gabrielmusskopf/tamagotchi/exception/TamagochiFaleceuException.java
+/home/gabrielgrahlmusskopf/unisinos/algoritimos-e-programacao/tamagotchi/src/main/java/br/com/gabrielmusskopf/tamagotchi/desejo/Informacao.java
+/home/gabrielgrahlmusskopf/unisinos/algoritimos-e-programacao/tamagotchi/src/main/java/br/com/gabrielmusskopf/tamagotchi/desejo/DesejoComer.java
+/home/gabrielgrahlmusskopf/unisinos/algoritimos-e-programacao/tamagotchi/src/main/java/br/com/gabrielmusskopf/tamagotchi/desejo/DesejoDormir.java
+/home/gabrielgrahlmusskopf/unisinos/algoritimos-e-programacao/tamagotchi/src/main/java/br/com/gabrielmusskopf/tamagotchi/Jogo.java
+/home/gabrielgrahlmusskopf/unisinos/algoritimos-e-programacao/tamagotchi/src/main/java/br/com/gabrielmusskopf/tamagotchi/comunicacao/Cor.java
+/home/gabrielgrahlmusskopf/unisinos/algoritimos-e-programacao/tamagotchi/src/main/java/br/com/gabrielmusskopf/tamagotchi/Principal.java
+/home/gabrielgrahlmusskopf/unisinos/algoritimos-e-programacao/tamagotchi/src/main/java/br/com/gabrielmusskopf/tamagotchi/desejo/DesejoFactory.java
