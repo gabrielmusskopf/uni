@@ -1,12 +1,16 @@
-package br.com.gabrielmusskopf.desejo;
+package br.com.gabrielmusskopf.tamagotchi.desejo;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import br.com.gabrielmusskopf.comunicacao.Comunicador;
-import br.com.gabrielmusskopf.Tamagotchi;
+import br.com.gabrielmusskopf.tamagotchi.comunicacao.Comunicador;
+import br.com.gabrielmusskopf.tamagotchi.Tamagotchi;
+import br.com.gabrielmusskopf.tamagotchi.comunicacao.Cor;
 
+/**
+ * Desejo de comer, com as devidas ações implementadas de maneira específica
+ */
 class DesejoComer implements Desejo {
 
 	private Comunicador comunicador;
@@ -26,25 +30,22 @@ class DesejoComer implements Desejo {
 			case 1 -> tamagotchi.comerMuito();
 			case 2 -> tamagotchi.comerPouco();
 			case 3 -> tamagotchi.naoComer();
-			default -> comunicador.comunicar("Opção inválida.");
+			default -> {
+				comunicador.comunicar(Cor.VERMELHO, "Opção inválida.\n");
+				return Optional.of(this);
+			}
 		}
 		return Optional.empty();
 	}
 
 	@Override
 	public void comunicado() {
-		comunicador.comunicar("\nSeu Tamagotchi está com fome. O que deseja fazer?\n\n" + formatarOpcoes());
+		comunicador.comunicar("Seu Tamagotchi está com fome. O que deseja fazer?\n\n" + formatarOpcoes());
 	}
 
 	@Override
 	public Map<Integer, String> getOpcoes(){
 		return opcoes;
 	}
-
-	@Override
-	public TipoDesejo getTipoDesejo() {
-		return TipoDesejo.COMER;
-	}
-
 
 }

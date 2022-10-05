@@ -1,7 +1,10 @@
-package br.com.gabrielmusskopf.desejo;
+package br.com.gabrielmusskopf.tamagotchi.desejo;
 
-import br.com.gabrielmusskopf.comunicacao.Comunicador;
+import br.com.gabrielmusskopf.tamagotchi.comunicacao.Comunicador;
 
+/**
+ * Responsável por criar os desejos
+ */
 public abstract class DesejoFactory {
 
 	public static Desejo criarDesejoComer(Comunicador comunicador) {

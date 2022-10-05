@@ -1,12 +1,15 @@
-package br.com.gabrielmusskopf.desejo;
+package br.com.gabrielmusskopf.tamagotchi.desejo;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import br.com.gabrielmusskopf.comunicacao.Comunicador;
-import br.com.gabrielmusskopf.Tamagotchi;
-
+import br.com.gabrielmusskopf.tamagotchi.comunicacao.Comunicador;
+import br.com.gabrielmusskopf.tamagotchi.Tamagotchi;
+import br.com.gabrielmusskopf.tamagotchi.comunicacao.Cor;
+/**
+ * Desejo de tédio, com as devidas ações implementadas de maneira específica
+ */
 class DesejoTedio implements Desejo {
 
 	private Comunicador comunicador;
@@ -27,7 +30,10 @@ class DesejoTedio implements Desejo {
 				tamagotchi.caminhar();
 				return Optional.of(DesejoFactory.criarDesejoComer(comunicador));
 			}
-			default -> comunicador.comunicar(() -> "Opção inválida.");
+			default -> {
+				comunicador.comunicar(Cor.VERMELHO, "Opção inválida.\n");
+				return Optional.of(this);
+			}
 		}
 
 		return Optional.empty();
@@ -41,11 +47,6 @@ class DesejoTedio implements Desejo {
 	@Override
 	public Map<Integer, String> getOpcoes(){
 		return opcoes;
-	}
-
-	@Override
-	public TipoDesejo getTipoDesejo() {
-		return TipoDesejo.TEDIO;
 	}
 
 }
