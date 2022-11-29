@@ -9,29 +9,30 @@ public class ApostaInicial implements Etapa {
 	private Comunicador comunicador;
 	private boolean isCompleta;
 
-	public ApostaInicial(Comunicador comunicador) {
+	public ApostaInicial (Comunicador comunicador) {
 		this.comunicador = comunicador;
 	}
 
 	@Override
-	public boolean isCompelta() {
+	public boolean isCompelta () {
 		return isCompleta;
 	}
 
 	@Override
-	public void executar(Jogo jogo) {
+	public void executar (Jogo jogo) {
 		var bigBlind = jogo.getBigBlind();
 		var smallBlind = jogo.getSmallBlind();
 
-		jogo.apostar(bigBlind, APOSTA_BIG_BLIND);
-		jogo.apostar(smallBlind, APOSTA_BIG_BLIND / 2);
-		comunicador.comunicar("Apostas iniciais feitas. O pote está com " + jogo.getPote() + " fichas");
+		var apostaBB = jogo.apostar(bigBlind, APOSTA_BIG_BLIND);
+		var apostaSB = jogo.apostar(smallBlind, APOSTA_BIG_BLIND / 2);
+		comunicador.comunicar("Apostas iniciais feitas. Big Blind apostou {0} e o Small Blind {1}.\nO pote está com {2} fichas.", apostaBB, apostaSB, jogo.getPote());
 
 		isCompleta = Boolean.TRUE;
 	}
 
 	@Override
-	public String getNome() {
+	public String getNome () {
 		return "Apostas iniciais";
 	}
+
 }
