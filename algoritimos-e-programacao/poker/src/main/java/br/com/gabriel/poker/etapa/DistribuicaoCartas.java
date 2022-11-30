@@ -5,20 +5,22 @@ import br.com.gabriel.poker.comunicacao.Comunicador;
 
 public class DistribuicaoCartas implements Etapa {
 
-	private Comunicador comunicador;
+	private final Comunicador comunicador;
 	private boolean isCompleta;
 
-	public DistribuicaoCartas(Comunicador comunicador) {
+	public DistribuicaoCartas (Comunicador comunicador) {
 		this.comunicador = comunicador;
 	}
 
 	@Override
-	public boolean isCompelta() {
+	public boolean isCompelta () {
 		return isCompleta;
 	}
 
 	@Override
-	public void executar(Jogo jogo) {
+	public void executar (Jogo jogo) {
+		if (!jogo.isDeveExecutarRodadas()) return;
+
 		jogo.getJogadoresRestantes().forEach(jogador -> {
 			jogador.setCartas(jogo.comprarCartasIniciais());
 			comunicador.comunicar("Cartas distríbuidas para o jogador " + jogador.getNome());
@@ -28,7 +30,7 @@ public class DistribuicaoCartas implements Etapa {
 	}
 
 	@Override
-	public String getNome() {
+	public String getNome () {
 		return "Distribuição de cartas";
 	}
 

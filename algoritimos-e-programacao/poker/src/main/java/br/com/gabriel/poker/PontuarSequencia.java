@@ -49,6 +49,7 @@ public class PontuarSequencia {
 
 	public static Jogador buscarCartaMaisAlta (Map<Jogador, List<Carta>> todasCartas) {
 		return todasCartas.entrySet().stream()
+				.peek(entry -> converter1Para14(entry.getValue()))
 				.max(Comparator.comparingInt(e -> buscarCartaMaisAlta(e.getValue()).getNumero()))
 				.map(Map.Entry::getKey)
 				.orElse(null);
@@ -62,17 +63,21 @@ public class PontuarSequencia {
 
 	private static boolean isRoyalFlush (List<Carta> cartas) {
 
-		var cartasAMapeado = cartas.stream()
-				.peek(carta -> {
-					if (carta.getNumero().equals(1))
-						carta.setNumero(14);
-				})
+		var cartasAMapeado = converter1Para14(cartas).stream()
 				.sorted(Comparator.comparingInt(Carta::getNumero))
 				.toList();
 
 		return isSequenciaDe(cartasAMapeado, 5) &&
 				isMesmoNaipe(cartas) &&
 				Integer.valueOf(14).equals(cartasAMapeado.get(cartasAMapeado.size() - 1).getNumero());
+	}
+
+	private static List<Carta> converter1Para14 (List<Carta> cartas) {
+		return cartas.stream()
+				.peek(carta -> {
+					if (carta.getNumero().equals(1)) carta.setNumero(14);
+				})
+				.toList();
 	}
 
 	private static boolean isStraigthFlush (List<Carta> cartas) {

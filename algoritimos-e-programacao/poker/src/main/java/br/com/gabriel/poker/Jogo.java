@@ -26,10 +26,14 @@ public class Jogo {
 	private List<Jogador> jogadores = new ArrayList<>();
 	@Getter
 	private int pote;
+	@Getter
 	@Setter
 	private int apostaDaRodada;
 	@Getter
 	private Map<Jogador, Integer> apostas = new HashMap<>();
+	@Setter
+	@Getter
+	private boolean deveExecutarRodadas = true;
 
 	public Jogo (List<String> nomesJogadores) {
 		baralho = new Baralho();
@@ -77,10 +81,6 @@ public class Jogo {
 	public int apostar (Jogador jogador, int fichas) {
 		var fichasApostadas = jogador.apostar(fichas);
 		pote += fichasApostadas;
-
-		if (fichasApostadas != 0) {
-			apostas.put(jogador, fichasApostadas);
-		}
 
 		return fichasApostadas;
 	}
@@ -140,6 +140,19 @@ public class Jogo {
 
 	public Set<Jogador> getJogadoresParticipandoNaRodada () {
 		return apostas.keySet();
+	}
+
+	public void adicionarJogadorNaRodada (Jogador jogador, int apostado) {
+		apostas.put(jogador, apostado);
+	}
+
+	public void removerDaRodada (Jogador jogador) {
+		apostas.remove(jogador);
+	}
+
+	public void terminarRodada (Jogador vencedor) {
+		distribuirPote(vencedor, pote);
+		deveExecutarRodadas = Boolean.FALSE;
 	}
 
 }

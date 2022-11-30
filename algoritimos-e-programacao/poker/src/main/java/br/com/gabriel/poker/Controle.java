@@ -8,12 +8,8 @@ import java.util.function.Supplier;
 
 import br.com.gabriel.poker.comunicacao.Comunicador;
 import br.com.gabriel.poker.comunicacao.Cor;
-import br.com.gabriel.poker.etapa.ApostaInicial;
-import br.com.gabriel.poker.etapa.Apostas;
-import br.com.gabriel.poker.etapa.DistribuicaoCartas;
 import br.com.gabriel.poker.etapa.Etapa;
-import br.com.gabriel.poker.etapa.Resultados;
-import br.com.gabriel.poker.etapa.TrocaDeCartas;
+import br.com.gabriel.poker.etapa.EtapaFactory;
 import br.com.gabriel.poker.jogador.Jogador;
 import lombok.Getter;
 
@@ -64,7 +60,8 @@ public class Controle {
 	}
 
 	public void adicionarEtapas () {
-		etapas = List.of(new DistribuicaoCartas(comunicador), new ApostaInicial(comunicador), new TrocaDeCartas(comunicador), new Apostas(comunicador), new Resultados(comunicador));
+		etapas = EtapaFactory.contruirEtapas();
+		jogo.setDeveExecutarRodadas(Boolean.TRUE);
 	}
 
 	public void executarEtapa () {

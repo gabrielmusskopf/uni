@@ -6,7 +6,7 @@ import br.com.gabriel.poker.comunicacao.Comunicador;
 public class ApostaInicial implements Etapa {
 
 	private static final int APOSTA_BIG_BLIND = 10;
-	private Comunicador comunicador;
+	private final Comunicador comunicador;
 	private boolean isCompleta;
 
 	public ApostaInicial (Comunicador comunicador) {
@@ -20,12 +20,17 @@ public class ApostaInicial implements Etapa {
 
 	@Override
 	public void executar (Jogo jogo) {
+		if (!jogo.isDeveExecutarRodadas()) return;
+
 		var bigBlind = jogo.getBigBlind();
 		var smallBlind = jogo.getSmallBlind();
 
 		var apostaBB = jogo.apostar(bigBlind, APOSTA_BIG_BLIND);
 		var apostaSB = jogo.apostar(smallBlind, APOSTA_BIG_BLIND / 2);
 		comunicador.comunicar("Apostas iniciais feitas. Big Blind apostou {0} e o Small Blind {1}.\nO pote está com {2} fichas.", apostaBB, apostaSB, jogo.getPote());
+
+		jogo.adicionarJogadorNaRodada(bigBlind, apostaBB);
+		jogo.adicionarJogadorNaRodada(smallBlind, apostaSB);
 
 		isCompleta = Boolean.TRUE;
 	}

@@ -29,6 +29,7 @@ public class Resultados implements Etapa {
 
 	@Override
 	public void executar (Jogo jogo) {
+		if (!jogo.isDeveExecutarRodadas()) return;
 
 		var jogadoresComMaiorPeso = jogo.getJogadoresParticipandoNaRodada().stream()
 				.collect(Collectors.groupingBy(jogador -> PontuarSequencia.pontuar(jogador.getCartas())))
@@ -46,8 +47,9 @@ public class Resultados implements Etapa {
 
 		if (jogadoresComMaiorPeso.isEmpty()) {
 			var jogadorComCartaMaior = PontuarSequencia.buscarCartaMaisAlta(cartasPorJogador);
-			comunicador.comunicar(jogadorComCartaMaior.getNome() + " ganhou pela maior carta!"); //melhorar
-			exibirVencedores(List.of(jogadorComCartaMaior));
+			jogo.distribuirPote(List.of(jogadorComCartaMaior));
+
+			comunicador.comunicar(Cor.VERDE, "\n{0} venceu pela maior carta.", exibirVencedores(List.of(jogadorComCartaMaior)));
 
 		} else {
 			var vencedores = jogadoresComMaiorPeso.entrySet().stream()

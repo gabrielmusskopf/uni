@@ -2,11 +2,12 @@ package br.com.gabriel.poker.etapa;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 import java.util.stream.IntStream;
 
 import br.com.gabriel.poker.Carta;
+import br.com.gabriel.poker.Configuracoes;
 import br.com.gabriel.poker.Controle;
 import br.com.gabriel.poker.Jogo;
 import br.com.gabriel.poker.comunicacao.Comunicador;
@@ -16,6 +17,7 @@ import br.com.gabriel.poker.util.Aleatorio;
 
 public class TrocaDeCartas implements Etapa {
 
+	private static final String NAO_NUMEROS_REXEG = "[^\\d]";
 	private final Comunicador comunicador;
 	private boolean isCompleta;
 
@@ -30,6 +32,7 @@ public class TrocaDeCartas implements Etapa {
 
 	@Override
 	public void executar (Jogo jogo) {
+		if (!jogo.isDeveExecutarRodadas()) return;
 
 		for (int i = Jogo.POSICAO_BIG_BLIND; i < jogo.getJogadoresRestantes().size(); i++) {
 			var jogador = jogo.getJogadoresRestantes().get(i);
@@ -46,8 +49,6 @@ public class TrocaDeCartas implements Etapa {
 		List<Carta> cartasParaTrocar;
 
 		if (Controle.isPlayer(jogador)) {
-			comunicador.comunicar(Cor.AZUL, "\n{0}", jogador.visualizarCartas());
-			comunicador.comunicar("{0} quais cartas deseja trocar? (Digite separando com espaço)", jogador.getNome());
 			cartasParaTrocar = buscarQuantidadeTrocadaPeloJogador(jogador);
 		} else {
 			var quantidadeTrocada = Aleatorio.buscarEntre(0, Jogo.QUANTIDADE_CARTAS_INICIAIS);
@@ -69,11 +70,16 @@ public class TrocaDeCartas implements Etapa {
 
 	private List<Carta> buscarQuantidadeTrocadaPeloJogador (Jogador jogador) {
 
-		var scanner = new Scanner(System.in);
+		final var cartas = Configuracoes.SCANNER.nextLine()
+				.trim()
+				.split(" ");
 
-		final var cartas = scanner.nextLine().trim().split(" ");
+		if (cartas[0].equals(""))
+			return Collections.emptyList();
 
 		return Arrays.stream(cartas)
+				.map(numero -> numero.replaceAll(NAO_NUMEROS_REXEG, ""))
+				.filter(numero -> !numero.equals(""))
 				.map(Integer::valueOf)
 				.map(numero -> jogador.getCartas().stream()
 						.filter(carta -> carta.getNumero().equals(numero))

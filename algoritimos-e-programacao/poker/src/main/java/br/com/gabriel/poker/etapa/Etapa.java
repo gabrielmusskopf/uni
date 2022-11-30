@@ -4,10 +4,10 @@ import br.com.gabriel.poker.Jogo;
 
 public interface Etapa {
 
-	boolean isCompelta();
+	boolean isCompelta ();
 
-	void executar(Jogo jogo);
+	void executar (Jogo jogo);
 
-	String getNome();
+	String getNome ();
 
 }
