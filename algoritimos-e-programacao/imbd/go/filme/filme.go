@@ -8,3 +8,11 @@ type Filme struct {
 func NovoFilme(codigo int, ano int, nome string, diretor string) *Filme {
     return &Filme{codigo, ano, nome, diretor}
 }
+
+func (f *Filme) BuscarNome() string {
+    return f.nome
+}
+
+func (f *Filme) BuscarAno() string {
+    return f.ano
+}

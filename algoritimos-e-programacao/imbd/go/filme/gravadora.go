@@ -51,3 +51,35 @@ func (g *Gravadora) RemoveFilmes(filmes []Filme) error {
 
     return nil
 }
+
+func (g *Gravadora) BuscarFilmes() []Filme {
+    return g.filmes;
+}
+
+func (g *Gravadora) BuscarFilmePorNome(nome string) []Filme {
+    filmes := make([]Filme, len(g.filmes))
+
+    for _, filme := range g.filmes {
+
+        if filme.BuscarNome() == nome{
+            filmes = append(filmes, filme)   
+        }
+    }
+
+    return filmes
+}
+
+func (g *Gravadora) BuscarFilmePorAno(ano int) []Filme {
+    filmes := make([]Filme, len(g.filmes))
+
+    for _, filme := range g.filmes {
+
+        if filme.BuscarAno() == ano{
+            filmes = append(filmes, filme)   
+        }
+    }
+
+    return filmes
+}
+
+//TODO: Método privado genérico para buscar por campos do filme
