@@ -46,6 +46,7 @@ public class Main {
 		System.out.printf("\nGasto total da empresa em %d semana%s:\n", numeroSemanas, adicionarPlural(numeroSemanas));
 		System.out.printf("R$%.2f", folha.totalPorEmpresa(empresa));
 
+        scanner.close();
 	}
 
 	private static String adicionarPlural(int numeroSemanas) {
