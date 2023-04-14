@@ -3,12 +3,11 @@ package br.com.gabrielgmusskopf.cinema.opcao;
 import br.com.gabrielgmusskopf.cinema.Cinema;
 import br.com.gabrielgmusskopf.cinema.Grafico;
 import br.com.gabrielgmusskopf.cinema.excecao.NegocioExcecao;
-import br.com.gabrielgmusskopf.cinema.interacao.Interacao;
 
-public class CancelarReservaOpcao extends Opcao {
+class CancelarReservaOpcao extends OpcaoAbstrata {
 
-	public CancelarReservaOpcao(int numero, Cinema cinema, Interacao interacao, Grafico grafico) {
-		super(numero, "Cancelar reserva", cinema, interacao, grafico);
+	public CancelarReservaOpcao(int numero, Cinema cinema, Grafico grafico) {
+		super(numero, cinema, grafico);
 	}
 
 	@Override
@@ -23,5 +22,10 @@ public class CancelarReservaOpcao extends Opcao {
 		}
 
 		grafico.mostrarPosicoes(cinema);
+	}
+
+	@Override
+	public String getFrase() {
+		return "Cancelar reserva";
 	}
 }

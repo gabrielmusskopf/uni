@@ -4,15 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import br.com.gabrielgmusskopf.cinema.interacao.Interacao;
-
 public class Grafico {
-
-	private final Interacao interacao;
-
-	public Grafico(Interacao interacao) {
-		this.interacao = interacao;
-	}
 
 	public void mostrarPosicoes(Cinema cinema) {
 		var numFileiras = cinema.getQuantidadeFileiras();
@@ -25,26 +17,26 @@ public class Grafico {
 
 				if (i != numFileiras) {
 					var posicao = cinema.getPosicoes()[i][j];
-					interacao.out(posicao.informacoes() + "\t");
+					Contexto.getUI().out(posicao.informacoes() + "\t");
 
 					continue;
 				}
 
 				exibirNumeroColuna(j);
 			}
-			interacao.outln();
+			Contexto.getUI().outln();
 		}
 	}
 
 	private void exibirLetraFileira(int numFileiras, int i, int j) {
 		if (j == 0 && i != numFileiras) {
-			interacao.out("%c\t".formatted((char) (i + 65)));
+			Contexto.getUI().out("%c\t".formatted((char) (i + 65)));
 		}
 	}
 
 	private void exibirNumeroColuna(int j) {
 		var texto = j + 1 < 10 ? "\t %d " : "\t %d";
-		interacao.out(texto.formatted(j + 1));
+		Contexto.getUI().out(texto.formatted(j + 1));
 	}
 
 	public void mostrarQuantidadePosicoes(Cinema cinema){
@@ -61,10 +53,10 @@ public class Grafico {
 		long ocupadas = quantidade(StatusPosicao.OCUPADO, posicoesPorStatus);
 		long reservado = quantidade(StatusPosicao.RESERVADO, posicoesPorStatus);
 
-		interacao.outln("\nLivre:\t\t%d\t\t%d%%".formatted(livres, percentual(livres, total)));
-		interacao.outln("Ocupado:\t%d\t\t%d%%".formatted(ocupadas, percentual(ocupadas, total)));
-		interacao.outln("Reservado:\t%d\t\t%d%%".formatted(reservado, percentual(reservado, total)));
-		interacao.outln("Total:\t\t%d\n".formatted(total));
+		Contexto.getUI().outln("\nLivre:\t\t%d\t\t%d%%".formatted(livres, percentual(livres, total)));
+		Contexto.getUI().outln("Ocupado:\t%d\t\t%d%%".formatted(ocupadas, percentual(ocupadas, total)));
+		Contexto.getUI().outln("Reservado:\t%d\t\t%d%%".formatted(reservado, percentual(reservado, total)));
+		Contexto.getUI().outln("Total:\t\t%d\n".formatted(total));
 	}
 
 	private long quantidade(StatusPosicao statusPosicao, Map<StatusPosicao, Long> posicoes){

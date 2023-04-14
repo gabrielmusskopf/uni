@@ -2,13 +2,11 @@ package br.com.gabrielgmusskopf.cinema.opcao;
 
 import br.com.gabrielgmusskopf.cinema.Cinema;
 import br.com.gabrielgmusskopf.cinema.Grafico;
-import br.com.gabrielgmusskopf.cinema.excecao.NegocioExcecao;
-import br.com.gabrielgmusskopf.cinema.interacao.Interacao;
 
-public class ExibirOpcoesOpcao extends Opcao {
+class ExibirOpcoesOpcao extends OpcaoAbstrata {
 
-	public ExibirOpcoesOpcao(int numero, Cinema cinema, Interacao interacao, Grafico grafico) {
-		super(numero, "Exibir posições", cinema, interacao, grafico);
+	public ExibirOpcoesOpcao(int numero, Cinema cinema, Grafico grafico) {
+		super(numero, cinema, grafico);
 	}
 
 	@Override
@@ -16,4 +14,10 @@ public class ExibirOpcoesOpcao extends Opcao {
 		grafico.mostrarPosicoes(cinema);
 		grafico.mostrarQuantidadePosicoes(cinema);
 	}
+
+	@Override
+	public String getFrase() {
+		return "Exibir posições";
+	}
+
 }

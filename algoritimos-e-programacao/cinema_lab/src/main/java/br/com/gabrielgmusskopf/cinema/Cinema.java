@@ -1,10 +1,6 @@
 package br.com.gabrielgmusskopf.cinema;
 
-import java.util.Arrays;
-import java.util.List;
-
 import br.com.gabrielgmusskopf.cinema.excecao.NegocioExcecao;
-import br.com.gabrielgmusskopf.cinema.interacao.Interacao;
 
 public class Cinema {
 
@@ -12,22 +8,20 @@ public class Cinema {
 	private static final int QUANTIDADE_FILEIRAS_MAXIMA = 26;
 	private static final int QUANTIDADE_FILEIRAS_PADRAO = 14;
 	private static final int QUANTIDADE_COLUNAS_PADRAO = 12;
-	private Interacao interacao;
-	private int quantidadeFileiras;
-	private int quantidadeColunas;
-	private Posicao[][] posicoes;
+	private final int quantidadeFileiras;
+	private final int quantidadeColunas;
+	private final Posicao[][] posicoes;
 
-	public Cinema(Interacao interacao){
-		this(QUANTIDADE_FILEIRAS_PADRAO, QUANTIDADE_COLUNAS_PADRAO, interacao);
+	public Cinema(){
+		this(QUANTIDADE_FILEIRAS_PADRAO, QUANTIDADE_COLUNAS_PADRAO);
 	}
 
-	public Cinema(int quantidadeColunas, int quantidadeFileiras, Interacao interacao){
+	public Cinema(int quantidadeColunas, int quantidadeFileiras){
 		if (quantidadeFileiras > QUANTIDADE_FILEIRAS_MAXIMA) {
-			interacao.info("Número máximo de fileiras excede o limite. Cinema criado com 26 fileiras.");
+			Contexto.getUI().info("Número máximo de fileiras excede o limite. Cinema criado com 26 fileiras.");
 			quantidadeFileiras = QUANTIDADE_FILEIRAS_MAXIMA;
 		}
 
-		this.interacao = interacao;
 		this.quantidadeFileiras = quantidadeFileiras;
 		this.quantidadeColunas = quantidadeColunas;
 		posicoes = new Posicao[quantidadeFileiras][quantidadeColunas];

@@ -1,35 +1,40 @@
 package br.com.gabrielgmusskopf.cinema;
 
-import java.util.List;
+import static br.com.gabrielgmusskopf.cinema.opcao.TipoOpcao.CANCELAR_RESERVA;
+import static br.com.gabrielgmusskopf.cinema.opcao.TipoOpcao.EXIBIR_POSICOES;
+import static br.com.gabrielgmusskopf.cinema.opcao.TipoOpcao.OCUPAR;
+import static br.com.gabrielgmusskopf.cinema.opcao.TipoOpcao.RESERVAR;
+import static br.com.gabrielgmusskopf.cinema.opcao.TipoOpcao.RESERVAR_MULTIPLOS;
+import static br.com.gabrielgmusskopf.cinema.opcao.TipoOpcao.RESERVAR_MULTIPLOS_COLUNA_OU_FILA;
+import static br.com.gabrielgmusskopf.cinema.opcao.TipoOpcao.PARAR;
 
-import br.com.gabrielgmusskopf.cinema.interacao.Terminal;
-import br.com.gabrielgmusskopf.cinema.opcao.CancelarReservaOpcao;
-import br.com.gabrielgmusskopf.cinema.opcao.ExibirOpcoesOpcao;
-import br.com.gabrielgmusskopf.cinema.opcao.OcuparOpcao;
-import br.com.gabrielgmusskopf.cinema.opcao.Opcao;
-import br.com.gabrielgmusskopf.cinema.opcao.ReservarMultiplosColunaOuFileOpcao;
-import br.com.gabrielgmusskopf.cinema.opcao.ReservarMultiplosOpcao;
-import br.com.gabrielgmusskopf.cinema.opcao.ReservarOpcao;
+import br.com.gabrielgmusskopf.cinema.opcao.OpcoesFactory;
+import br.com.gabrielgmusskopf.cinema.ui.TipoUI;
+import br.com.gabrielgmusskopf.cinema.ui.UIFactory;
 
-public class Main {
+class Main {
 
 	public static void main(String[] args) {
-		final var terminal = new Terminal();
-		final var cinema = new Cinema(10, 30, terminal);
-		final var grafico = new Grafico(terminal);
+        Aplicacao.iniciar();
+		Contexto.definirUI(UIFactory.construir(TipoUI.CONSOLE));
 
-		final List<Opcao> opcoes = List.of(
-				new ReservarOpcao(1, cinema, terminal, grafico),
-				new CancelarReservaOpcao(2, cinema, terminal, grafico),
-				new OcuparOpcao(3, cinema, terminal, grafico),
-				new ExibirOpcoesOpcao(4, cinema, terminal, grafico),
-				new ReservarMultiplosOpcao(5, cinema, terminal, grafico),
-				new ReservarMultiplosColunaOuFileOpcao(6, cinema, terminal, grafico)
+		final var grafico = new Grafico();
+		final var cinema = new Cinema(10, 30);
+		final var opcoesFactory = new OpcoesFactory(cinema, grafico);
+
+		final var opcoes = opcoesFactory.construir(
+				RESERVAR,
+				RESERVAR_MULTIPLOS,
+				RESERVAR_MULTIPLOS_COLUNA_OU_FILA,
+				OCUPAR,
+				CANCELAR_RESERVA,
+				EXIBIR_POSICOES,
+                PARAR
 		);
 
-		final var menu = new Menu(terminal, opcoes);
+		final var menu = new Menu(opcoes);
 
-		while (menu.deveExibir()){
+		while (Aplicacao.isExecutando()){
 			menu.exibir();
 		}
 	}

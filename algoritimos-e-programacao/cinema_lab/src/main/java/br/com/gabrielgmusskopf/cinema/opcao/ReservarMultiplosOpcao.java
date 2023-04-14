@@ -1,27 +1,26 @@
 package br.com.gabrielgmusskopf.cinema.opcao;
 
 import java.util.Arrays;
-import java.util.Scanner;
 
 import br.com.gabrielgmusskopf.cinema.Cinema;
+import br.com.gabrielgmusskopf.cinema.Contexto;
 import br.com.gabrielgmusskopf.cinema.Grafico;
 import br.com.gabrielgmusskopf.cinema.excecao.NegocioExcecao;
-import br.com.gabrielgmusskopf.cinema.interacao.Interacao;
 
-public class ReservarMultiplosOpcao extends Opcao {
+class ReservarMultiplosOpcao extends OpcaoAbstrata {
 
-	public ReservarMultiplosOpcao(int numero, Cinema cinema, Interacao interacao, Grafico grafico) {
-		super(numero, "Reservar múltiplos", cinema, interacao, grafico);
+	public ReservarMultiplosOpcao(int numero, Cinema cinema, Grafico grafico) {
+		super(numero, cinema, grafico);
 	}
 
 	@Override
 	public void executar() {
 		grafico.mostrarPosicoes(cinema);
-		interacao.outln("\nDigite as posições separadas por espaço (exemplo 'A2 A3 B4'):");
+		Contexto.getUI().outln("\nDigite as posições separadas por espaço (exemplo 'A2 A3 B4'):");
 
 		String entrada;
 		do {
-			entrada = interacao.in();
+			entrada = Contexto.getUI().in();
 		}while (entrada.equals(""));
 
 		var entradaMaxima = String.valueOf(cinema.getQuantidadeColunas()).length() + 1;
@@ -43,5 +42,10 @@ public class ReservarMultiplosOpcao extends Opcao {
 				});
 
 		grafico.mostrarPosicoes(cinema);
+	}
+
+	@Override
+	public String getFrase() {
+		return "Reservar múltiplos";
 	}
 }
