@@ -3,10 +3,10 @@ package br.com.gabrielgmusskopf.cinema;
 import static br.com.gabrielgmusskopf.cinema.opcao.TipoOpcao.CANCELAR_RESERVA;
 import static br.com.gabrielgmusskopf.cinema.opcao.TipoOpcao.EXIBIR_POSICOES;
 import static br.com.gabrielgmusskopf.cinema.opcao.TipoOpcao.OCUPAR;
+import static br.com.gabrielgmusskopf.cinema.opcao.TipoOpcao.PARAR;
 import static br.com.gabrielgmusskopf.cinema.opcao.TipoOpcao.RESERVAR;
 import static br.com.gabrielgmusskopf.cinema.opcao.TipoOpcao.RESERVAR_MULTIPLOS;
 import static br.com.gabrielgmusskopf.cinema.opcao.TipoOpcao.RESERVAR_MULTIPLOS_COLUNA_OU_FILA;
-import static br.com.gabrielgmusskopf.cinema.opcao.TipoOpcao.PARAR;
 
 import br.com.gabrielgmusskopf.cinema.opcao.OpcoesFactory;
 import br.com.gabrielgmusskopf.cinema.ui.TipoUI;
