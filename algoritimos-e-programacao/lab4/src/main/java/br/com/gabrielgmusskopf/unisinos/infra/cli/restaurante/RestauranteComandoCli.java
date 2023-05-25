@@ -6,9 +6,12 @@ import java.util.Arrays;
 
 public enum RestauranteComandoCli implements ComandoCli {
 
-    NOVO_PEDIDO(1, "Novo pedido"),
-    VOLTAR(2, "Voltar"),
-    CANCELAR(3, "Sair"),
+    VER_PRODUTOS(1, "Produtos"),
+    NOVO_PEDIDO(2, "Novo pedido"),
+    FILA_PEDIDOS(3, "Ver fila de pedidos"),
+    VOLTAR(4, "Voltar"),
+    RETIRAR_PEDIO(5, "Retirar pedido"),
+    CANCELAR(6, "Sair"),
     ;
 
     private final int numero;

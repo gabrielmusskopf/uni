@@ -1,12 +1,11 @@
 package br.com.gabrielgmusskopf.unisinos.dominio;
 
 import br.com.gabrielgmusskopf.unisinos.dominio.execao.IngredientesInsuficientesException;
+import br.com.gabrielgmusskopf.unisinos.dominio.execao.NenhumPedidoParaRetirarException;
+import br.com.gabrielgmusskopf.unisinos.dominio.execao.RestauranteException;
 import br.com.gabrielgmusskopf.unisinos.dominio.pedido.Pedido;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.UUID;
+import java.util.*;
 
 public class Restaurante {
 
@@ -14,6 +13,7 @@ public class Restaurante {
     private final String nome;
     private Queue<Pedido> pedidos;
     private Estoque estoque;
+    private Set<Produto> produtos;
     private PedidoProcessador pedidoProcessador;
 
     public Restaurante(String nome) {
@@ -25,6 +25,7 @@ public class Restaurante {
         this.nome = nome;
         this.estoque = estoque;
         this.pedidos = new LinkedList<>();
+        this.produtos = new HashSet<>();
         this.pedidoProcessador = new PedidoProcessador();
     }
 
@@ -36,6 +37,10 @@ public class Restaurante {
         pedidoProcessador.processar(pedido);
     }
 
+    public void adicionarProdutos(Produto... p) {
+        produtos.addAll(List.of(p));
+    }
+
     private boolean ingredientesEmEstoque(Pedido pedido) {
         var ingredientes = pedido.getProdutos().stream()
                 .map(Produto::getIngredientes)
@@ -43,6 +48,19 @@ public class Restaurante {
                 .toList();
 
         return estoque.contem(ingredientes);
+    }
+
+    public Pedido retirarPedido() {
+        var proximo = pedidos.peek();
+        if (proximo == null || !proximo.isAguardandoCliente()){
+            throw new RestauranteException("Nenhum pronto para retirada");
+        }
+        var p = pedidos.poll();
+        if (p == null) {
+            throw new RestauranteException("Nenhum pedido na fila");
+        }
+        p.finalizar();
+        return p;
     }
 
     public String getId() {
@@ -59,5 +77,9 @@ public class Restaurante {
 
     public String getNome() {
         return nome;
+    }
+
+    public List<Produto> getProdutos() {
+        return produtos.stream().toList();
     }
 }

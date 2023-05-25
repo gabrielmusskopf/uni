@@ -1,27 +1,26 @@
-package br.com.gabrielgmusskopf.unisinos.infra.cli.home;
+package br.com.gabrielgmusskopf.unisinos.infra.cli.auth;
 
 import br.com.gabrielgmusskopf.unisinos.infra.cli.ComandoCli;
 
 import java.util.Arrays;
 
-public enum HomeComandoCli implements ComandoCli {
+public enum AuthComandoCli implements ComandoCli {
 
-    NOVO_RESTAURANTE(1, "Novo restaurante"),
-    ESCOLHER_RESTAURANTE(2, "Escolher restaurante"),
-    MEUS_PEDIDOS(3, "Meus pedidos"),
-    CANCELAR(4, "Sair"),
+    CADASTRAR(1, "Cadastrar"),
+    ENTRAR(2, "Entrar"),
+    SAIR(3, "Sair"),
     ;
 
     private final int numero;
     private final String descricao;
 
-    HomeComandoCli(int i, String s) {
+    AuthComandoCli(int i, String s) {
         this.numero = i;
         this.descricao = s;
     }
 
-    public static HomeComandoCli numero(int n) {
-        return Arrays.stream(HomeComandoCli.values())
+    public static AuthComandoCli numero(int n) {
+        return Arrays.stream(AuthComandoCli.values())
                 .filter(c -> c.getNumero() == n)
                 .findFirst()
                 .orElse(null);

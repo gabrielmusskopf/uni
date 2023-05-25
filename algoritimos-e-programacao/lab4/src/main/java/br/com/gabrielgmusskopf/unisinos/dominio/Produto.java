@@ -35,7 +35,7 @@ public class Produto {
 
     public String toString(){
         return """
-                [%s] %s %2.f
+                [%s] %s %.2f
                 """.formatted(id, nome, valor);
     }
 

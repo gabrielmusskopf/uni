@@ -1,8 +1,8 @@
 package br.com.gabrielgmusskopf.unisinos.dominio.pedido;
 
-class PedidoEntregando extends EstadoPedido {
+class PedidoAguardandoCliente extends EstadoPedido {
 
-    protected PedidoEntregando(Pedido pedido) {
+    protected PedidoAguardandoCliente(Pedido pedido) {
         super(pedido);
     }
 
@@ -11,7 +11,7 @@ class PedidoEntregando extends EstadoPedido {
     }
 
     public String toString() {
-        return "Entregando";
+        return "Aguardando cliente";
     }
 
 }

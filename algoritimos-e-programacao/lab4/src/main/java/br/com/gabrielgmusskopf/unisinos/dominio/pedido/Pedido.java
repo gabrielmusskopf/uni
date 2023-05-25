@@ -1,7 +1,8 @@
 package br.com.gabrielgmusskopf.unisinos.dominio.pedido;
 
-import br.com.gabrielgmusskopf.unisinos.dominio.Cliente;
+import br.com.gabrielgmusskopf.unisinos.dominio.Usuario;
 import br.com.gabrielgmusskopf.unisinos.dominio.Produto;
+import br.com.gabrielgmusskopf.unisinos.dominio.Restaurante;
 
 import java.util.List;
 import java.util.UUID;
@@ -10,19 +11,21 @@ import java.util.stream.Collectors;
 public class Pedido {
 
     private final UUID id;
-    private final Cliente cliente;
+    private final Usuario usuario;
+    private final Restaurante restaurante;
     private final Double custo;
     private List<Produto> produtos;
     private EstadoPedido estado;
 
-    public Pedido(Cliente cliente, Produto... produtos) {
-        this(cliente, List.of(produtos));
+    public Pedido(Usuario usuario, Restaurante restaurante, Produto... produtos) {
+        this(usuario, restaurante, List.of(produtos));
     }
 
-    public Pedido(Cliente cliente, List<Produto> produtos) {
+    public Pedido(Usuario usuario, Restaurante restaurante, List<Produto> produtos) {
         this.id = UUID.randomUUID();
-        this.cliente = cliente;
+        this.usuario = usuario;
         this.produtos = produtos;
+        this.restaurante = restaurante;
         this.custo = calcularCustoTotal(produtos);
         this.estado = new PedidoCriado(this);
     }
@@ -42,8 +45,16 @@ public class Pedido {
         estado.aprovar();
     }
 
+    public boolean isAguardandoCliente(){
+        return estado instanceof PedidoAguardandoCliente;
+    }
+
     public void entregar() {
         estado.entregar();
+    }
+
+    public void aguardandoCliente() {
+        estado.aguardandoCliente();
     }
 
     public void cancelar() {
@@ -62,6 +73,22 @@ public class Pedido {
         return produtos;
     }
 
+    public Usuario getCliente() {
+        return usuario;
+    }
+
+    public Restaurante getRestaurante() {
+        return restaurante;
+    }
+
+    public Double getCusto() {
+        return custo;
+    }
+
+    public EstadoPedido getEstado() {
+        return estado;
+    }
+
     public String toString() {
         var p = produtos.stream()
                 .map(Produto::getNome)
@@ -69,7 +96,7 @@ public class Pedido {
 
         return """
                 %s | %s | %f | %s
-                """.formatted(cliente, estado, custo, p);
+                """.formatted(usuario, estado, custo, p);
     }
 
 }

@@ -1,8 +1,8 @@
 package br.com.gabrielgmusskopf.unisinos.infra.repositorio;
 
-import br.com.gabrielgmusskopf.unisinos.infra.repositorio.cliente.ArquivoClienteRepositorio;
-import br.com.gabrielgmusskopf.unisinos.infra.repositorio.cliente.ClienteRepositorio;
-import br.com.gabrielgmusskopf.unisinos.infra.repositorio.cliente.MemoriaClienteRepositorio;
+import br.com.gabrielgmusskopf.unisinos.infra.repositorio.cliente.ArquivoUsuarioRepositorio;
+import br.com.gabrielgmusskopf.unisinos.infra.repositorio.cliente.UsuarioRepositorio;
+import br.com.gabrielgmusskopf.unisinos.infra.repositorio.cliente.MemoriaUsuarioRepositorio;
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.pedido.ArquivoPedidoRepositorio;
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.pedido.MemoriaPedidoRepositorio;
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.pedido.PedidoRepositorio;
@@ -15,7 +15,6 @@ import br.com.gabrielgmusskopf.unisinos.infra.repositorio.restaurante.Restaurant
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 
 public class ContextoRepositorio {
 
@@ -26,10 +25,10 @@ public class ContextoRepositorio {
         tipoArmazenamento = armazenamento;
     }
 
-    public static ClienteRepositorio clienteRepositorio(){
+    public static UsuarioRepositorio usuarioRepositorio(){
         return switch (tipoArmazenamento) {
-            case ARQUIVO -> (ClienteRepositorio) singleton(new ArquivoClienteRepositorio());
-            case MEMORIA -> (ClienteRepositorio) singleton(new MemoriaClienteRepositorio());
+            case ARQUIVO -> (UsuarioRepositorio) singleton(new ArquivoUsuarioRepositorio());
+            case MEMORIA -> (UsuarioRepositorio) singleton(new MemoriaUsuarioRepositorio());
         };
     }
 

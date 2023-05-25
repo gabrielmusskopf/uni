@@ -1,16 +1,16 @@
 package br.com.gabrielgmusskopf.unisinos.infra;
 
-import br.com.gabrielgmusskopf.unisinos.dominio.Cliente;
+import br.com.gabrielgmusskopf.unisinos.dominio.Usuario;
 
 public class AutenticacaoContexto {
 
-    private static Cliente autenticado;
+    private static Usuario autenticado;
 
-    public static void autenticar(Cliente cliente) {
-        autenticado = cliente;
+    public static void autenticar(Usuario usuario) {
+        autenticado = usuario;
     }
 
-    public static Cliente getAutenticado() {
+    public static Usuario getAutenticado() {
         return autenticado;
     }
 

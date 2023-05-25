@@ -8,7 +8,12 @@ import java.util.Optional;
 
 public class MemoriaProdutoRepositorio implements ProdutoRepositorio {
 
-    private final List<Produto> produtosMemoria = new LinkedList<>();
+    private List<Produto> produtosMemoria;
+
+    public MemoriaProdutoRepositorio() {
+        produtosMemoria = new LinkedList<>();
+        produtosMemoria.add(new Produto("Sanduíche", 5, List.of("Pão", "Queijo", "Manteiga")));
+    }
 
     @Override
     public Produto salvar(Produto produto) {

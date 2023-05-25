@@ -6,8 +6,8 @@ class PedidoAprovado extends EstadoPedido {
         super(pedido);
     }
 
-    protected void entregar() {
-        pedido.alterarEstado(new PedidoEntregando(pedido));
+    protected void prontoParaEntrega() {
+        pedido.alterarEstado(new PedidoPreparando(pedido));
     }
 
     public String toString() {

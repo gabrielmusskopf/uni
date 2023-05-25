@@ -8,7 +8,7 @@ import java.util.stream.IntStream;
 
 public abstract class ConsoleAbstrato implements Console {
 
-    protected static final Scanner scanner = new Scanner(System.in);
+    protected static final Scanner scanner = new Scanner(System.in).useDelimiter("\n");
     protected final ConsoleManager consoleManager;
 
     protected ConsoleAbstrato(ConsoleManager consoleManager) {

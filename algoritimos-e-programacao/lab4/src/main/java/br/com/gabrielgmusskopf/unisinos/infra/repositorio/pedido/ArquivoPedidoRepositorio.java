@@ -1,5 +1,6 @@
 package br.com.gabrielgmusskopf.unisinos.infra.repositorio.pedido;
 
+import br.com.gabrielgmusskopf.unisinos.dominio.Usuario;
 import br.com.gabrielgmusskopf.unisinos.dominio.pedido.Pedido;
 
 import java.util.List;
@@ -23,6 +24,11 @@ public class ArquivoPedidoRepositorio implements PedidoRepositorio{
 
     @Override
     public List<Pedido> buscarTodos() {
+        return null;
+    }
+
+    @Override
+    public List<Pedido> buscarParaCliente(Usuario usuario) {
         return null;
     }
 }

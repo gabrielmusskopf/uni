@@ -26,6 +26,10 @@ public abstract class EstadoPedido {
         throw new EstadoPedidoInvalidoException("Não é possível entregar o pedido");
     }
 
+    protected void aguardandoCliente() {
+        throw new EstadoPedidoInvalidoException("Não é possível retirar o pedido");
+    }
+
     protected void finalizar() {
         throw new EstadoPedidoInvalidoException("Não é possível finalizar o pedido");
     }
