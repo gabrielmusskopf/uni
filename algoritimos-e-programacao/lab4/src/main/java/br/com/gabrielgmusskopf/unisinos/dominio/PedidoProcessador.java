@@ -2,7 +2,11 @@ package br.com.gabrielgmusskopf.unisinos.dominio;
 
 import br.com.gabrielgmusskopf.unisinos.dominio.pedido.Pedido;
 
-public class PedidoProcessador {
+import java.io.Serializable;
+
+public class PedidoProcessador implements Serializable {
+
+    private static final long serialVersionUID = -7129758875938659761L;
 
     public void processar(Pedido pedido) {
         new Thread(() -> {

@@ -1,10 +1,12 @@
 package br.com.gabrielgmusskopf.unisinos.dominio;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
-public class Produto {
+public class Produto implements Serializable {
 
+    private static final long serialVersionUID = -2337329990367469592L;
     private final UUID id;
     private final String nome;
     private final double valor;

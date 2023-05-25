@@ -1,14 +1,17 @@
 package br.com.gabrielgmusskopf.unisinos.dominio.pedido;
 
-import br.com.gabrielgmusskopf.unisinos.dominio.Usuario;
 import br.com.gabrielgmusskopf.unisinos.dominio.Produto;
 import br.com.gabrielgmusskopf.unisinos.dominio.Restaurante;
+import br.com.gabrielgmusskopf.unisinos.dominio.Usuario;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class Pedido {
+public class Pedido implements Serializable {
+
+    private static final long serialVersionUID = -7097901326783065464L;
 
     private final UUID id;
     private final Usuario usuario;
@@ -79,6 +82,10 @@ public class Pedido {
 
     public Restaurante getRestaurante() {
         return restaurante;
+    }
+
+    public String getId() {
+        return id.toString();
     }
 
     public Double getCusto() {

@@ -1,8 +1,8 @@
 package br.com.gabrielgmusskopf.unisinos.infra.repositorio;
 
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.cliente.ArquivoUsuarioRepositorio;
-import br.com.gabrielgmusskopf.unisinos.infra.repositorio.cliente.UsuarioRepositorio;
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.cliente.MemoriaUsuarioRepositorio;
+import br.com.gabrielgmusskopf.unisinos.infra.repositorio.cliente.UsuarioRepositorio;
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.pedido.ArquivoPedidoRepositorio;
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.pedido.MemoriaPedidoRepositorio;
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.pedido.PedidoRepositorio;
@@ -13,16 +13,23 @@ import br.com.gabrielgmusskopf.unisinos.infra.repositorio.restaurante.ArquivoRes
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.restaurante.MemoriaRestauranteRepositorio;
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.restaurante.RestauranteRepositorio;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ContextoRepositorio {
 
+    private static List<Thread> armazenamentoThreads = new ArrayList<>();
     private static TipoArmazenamento tipoArmazenamento;
     private static final Map<Class<?>, Repositorio<?,?>> cache = new HashMap<>();
 
-    public static void setTipoArmazenamento(TipoArmazenamento armazenamento) {
+    public static void bootstrap(TipoArmazenamento armazenamento) {
         tipoArmazenamento = armazenamento;
+        usuarioRepositorio();
+        restauranteRepositorio();
+        pedidoRepositorio();
+        produtoRepositorio();
     }
 
     public static UsuarioRepositorio usuarioRepositorio(){
@@ -62,4 +69,12 @@ public class ContextoRepositorio {
         return repositorio;
     }
 
+    public static void adicionarThread(Thread thread) {
+        armazenamentoThreads.add(thread);
+        Runtime.getRuntime().addShutdownHook(thread);
+    }
+
+    public static void armazenar() {
+        armazenamentoThreads.forEach(Thread::run);
+    }
 }

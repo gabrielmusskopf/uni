@@ -10,10 +10,6 @@ Qsrc/main/java/br/com/gabrielgmusskopf/unisinos/infra/repositorio/Repositorio.ja
 —
 gsrc/main/java/br/com/gabrielgmusskopf/unisinos/infra/repositorio/cliente/ArquivoClienteRepositorio.java,0/8/08c962e8cc11cc9d00c0024763d0255fe1af9582
 —
-gsrc/main/java/br/com/gabrielgmusskopf/unisinos/infra/repositorio/produto/ArquivoProdutoRepositorio.java,9/d/9d6e7d803b6d21418f42c725b61901be90034ac3
-Ÿ
-osrc/main/java/br/com/gabrielgmusskopf/unisinos/infra/repositorio/restaurante/ArquivoRestauranteRepositorio.java,a/8/a890a2a768108c3b4d74003516842d742b8562e6
-—
 gsrc/main/java/br/com/gabrielgmusskopf/unisinos/infra/repositorio/cliente/MemoriaClienteRepositorio.java,5/7/57fe0b0b642c055aba146006b448aebb27e6a313
 r
 Bsrc/main/java/br/com/gabrielgmusskopf/unisinos/infra/Controle.java,f/d/fd19fe20ce3a6fa300be64462da668ed7e288f3d

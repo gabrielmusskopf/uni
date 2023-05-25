@@ -1,14 +1,15 @@
 package br.com.gabrielgmusskopf.unisinos.dominio;
 
 import br.com.gabrielgmusskopf.unisinos.dominio.execao.IngredientesInsuficientesException;
-import br.com.gabrielgmusskopf.unisinos.dominio.execao.NenhumPedidoParaRetirarException;
 import br.com.gabrielgmusskopf.unisinos.dominio.execao.RestauranteException;
 import br.com.gabrielgmusskopf.unisinos.dominio.pedido.Pedido;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Restaurante {
+public class Restaurante implements Serializable {
 
+    private static final long serialVersionUID = 8453435229433626592L;
     private final UUID id;
     private final String nome;
     private Queue<Pedido> pedidos;

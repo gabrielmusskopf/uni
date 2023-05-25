@@ -4,7 +4,6 @@ import br.com.gabrielgmusskopf.unisinos.dominio.Estoque;
 import br.com.gabrielgmusskopf.unisinos.dominio.Produto;
 import br.com.gabrielgmusskopf.unisinos.dominio.Restaurante;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;

@@ -1,6 +1,7 @@
 package br.com.gabrielgmusskopf.unisinos.infra;
 
 import br.com.gabrielgmusskopf.unisinos.comando.App;
+import br.com.gabrielgmusskopf.unisinos.infra.repositorio.ContextoRepositorio;
 
 public class Contexto {
 
@@ -24,6 +25,8 @@ public class Contexto {
     }
 
     public static void finalizar() {
+        //TODO: Armazenar objs em memória
+        ContextoRepositorio.armazenar();
         executando = false;
     }
 

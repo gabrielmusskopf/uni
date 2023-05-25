@@ -8,7 +8,7 @@ import br.com.gabrielgmusskopf.unisinos.infra.repositorio.TipoArmazenamento;
 public class Main {
 
     public static void main(String[] args) {
-        ContextoRepositorio.setTipoArmazenamento(TipoArmazenamento.MEMORIA);
+        ContextoRepositorio.bootstrap(TipoArmazenamento.ARQUIVO);
         Contexto.setApp(ConsoleFactory.novo());
 
         Contexto.iniciar();

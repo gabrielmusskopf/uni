@@ -1,11 +1,13 @@
 package br.com.gabrielgmusskopf.unisinos.dominio;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Estoque {
+public class Estoque implements Serializable {
 
+    private static final long serialVersionUID = 1518914179246622597L;
     private final Map<String, Integer> ingredientes = new HashMap<>();
 
     public void abastecer(String... novosIngredientes) {
