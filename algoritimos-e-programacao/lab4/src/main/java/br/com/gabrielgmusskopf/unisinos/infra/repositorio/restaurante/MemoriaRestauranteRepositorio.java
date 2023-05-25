@@ -3,7 +3,6 @@ package br.com.gabrielgmusskopf.unisinos.infra.repositorio.restaurante;
 import br.com.gabrielgmusskopf.unisinos.dominio.Restaurante;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 

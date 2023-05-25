@@ -1,6 +1,5 @@
 package br.com.gabrielgmusskopf.unisinos.comando;
 
-import br.com.gabrielgmusskopf.unisinos.dominio.Produto;
 import br.com.gabrielgmusskopf.unisinos.dominio.Restaurante;
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.restaurante.RestauranteRepositorio;
 

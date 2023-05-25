@@ -1,20 +1,33 @@
 package br.com.gabrielgmusskopf.unisinos.infra.cli;
 
 import br.com.gabrielgmusskopf.unisinos.dominio.util.IntUtils;
+import br.com.gabrielgmusskopf.unisinos.infra.repositorio.ContextoRepositorio;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public abstract class ConsoleAbstrato implements Console {
 
     protected static final Scanner scanner = new Scanner(System.in);
+    protected final ContextoRepositorio ctxRepositorio;
+    protected final ConsoleManager consoleManager;
+
+    protected ConsoleAbstrato(ContextoRepositorio ctxRepositorio, ConsoleManager consoleManager) {
+        this.ctxRepositorio = ctxRepositorio;
+        this.consoleManager = consoleManager;
+    }
+
+    protected void exibirOpcoes(Comando... comandos) {
+        Arrays.stream(comandos)
+                .sorted(Comparator.comparing(Comando::getNumero))
+                .forEach(c -> System.out.printf("%d %s\n", c.getNumero(), c.getDescricao()));
+    }
 
     protected <T> Map<Integer, T> montarOpcoes(List<T> produtos) {
-        return IntStream.rangeClosed(1, produtos.size())
+        return IntStream.range(0, produtos.size())
                 .boxed()
-                .collect(Collectors.toMap(Function.identity(), produtos::get));
+                .collect(Collectors.toMap(i -> i+1, produtos::get));
     }
 
     protected <T> List<T> selecionarOpcoes(Map<Integer, T> opcoes) {

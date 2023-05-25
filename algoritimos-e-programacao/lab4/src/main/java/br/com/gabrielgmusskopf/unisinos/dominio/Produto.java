@@ -17,6 +17,10 @@ public class Produto {
         this.ingredientes = ingredientes;
     }
 
+    public String getId() {
+        return id.toString();
+    }
+
     public String getNome() {
         return nome;
     }

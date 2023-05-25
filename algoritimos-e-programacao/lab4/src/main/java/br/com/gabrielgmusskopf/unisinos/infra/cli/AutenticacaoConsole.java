@@ -8,8 +8,12 @@ import java.util.Optional;
 
 public class AutenticacaoConsole extends ConsoleAbstrato {
 
+    protected AutenticacaoConsole(ContextoRepositorio ctxRepositorio,ConsoleManager consoleManager) {
+        super(ctxRepositorio, consoleManager);
+    }
+
     @Override
-    public void exibir(ConsoleManager manager) {
+    public void exibir() {
         System.out.println("--** Unisinos KDS **--\n");
 
         Optional<Cliente> cliente;
@@ -17,14 +21,13 @@ public class AutenticacaoConsole extends ConsoleAbstrato {
             System.out.println("Nome: ");
             var nome = scanner.next();
 
-            cliente = ContextoRepositorio
-                    .clienteRepositorio()
+            cliente = ctxRepositorio.clienteRepositorio()
                     .buscarPorNome(nome);
         } while (cliente.isEmpty());
 
         System.out.println("Bem vindo!\n");
         AutenticacaoContexto.autenticar(cliente.get());
-        manager.home();
+        consoleManager.home();
     }
 
 }

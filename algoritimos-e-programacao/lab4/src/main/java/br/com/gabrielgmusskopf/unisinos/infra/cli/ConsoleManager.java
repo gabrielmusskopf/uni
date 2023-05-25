@@ -2,6 +2,7 @@ package br.com.gabrielgmusskopf.unisinos.infra.cli;
 
 import br.com.gabrielgmusskopf.unisinos.comando.App;
 import br.com.gabrielgmusskopf.unisinos.dominio.Restaurante;
+import br.com.gabrielgmusskopf.unisinos.infra.repositorio.ContextoRepositorio;
 
 public class ConsoleManager implements App {
 
@@ -9,11 +10,12 @@ public class ConsoleManager implements App {
     private Console autenticacacao;
     private Console principal;
     private Console restaurante;
+    private ContextoRepositorio ctxRepositorio;
 
-    public ConsoleManager(Console primeiro) {
-        this.autenticacacao = new AutenticacaoConsole();
-        this.principal = new MainConsole();
-        this.atual = primeiro;
+    public ConsoleManager(ContextoRepositorio ctxRepositorio) {
+        this.autenticacacao = new AutenticacaoConsole(ctxRepositorio, this);
+        this.principal = new MainConsole(ctxRepositorio, this);
+        this.ctxRepositorio = ctxRepositorio;
     }
 
     /*
@@ -30,11 +32,15 @@ public class ConsoleManager implements App {
     @Override
     public void disponibilizar() {
         limparConsole();
-        atual.exibir(this);
+        atual.exibir();
     }
 
     private void limparConsole() {
         //TODO
+    }
+
+    public void login() {
+        atual = autenticacacao;
     }
 
     public void home(){
@@ -42,7 +48,7 @@ public class ConsoleManager implements App {
     }
 
     public void restaurante(Restaurante escolhido){
-        atual = new RestauranteConsole(escolhido);
+        atual = new RestauranteConsole(escolhido, ctxRepositorio, this);
     }
 
 }
