@@ -18,8 +18,6 @@ public class Restaurante {
 
     public Restaurante(String nome) {
         this(nome, new Estoque());
-        this.pedidos = new LinkedList<>();
-        this.pedidoProcessador = new PedidoProcessador();
     }
 
     public Restaurante(String nome, Estoque estoque) {
@@ -27,6 +25,7 @@ public class Restaurante {
         this.nome = nome;
         this.estoque = estoque;
         this.pedidos = new LinkedList<>();
+        this.pedidoProcessador = new PedidoProcessador();
     }
 
     public void novoPedido(Pedido pedido) {

@@ -8,8 +8,8 @@ import br.com.gabrielgmusskopf.unisinos.infra.repositorio.TipoArmazenamento;
 public class Main {
 
     public static void main(String[] args) {
-        //Injeção de dependências
-        Contexto.setApp(ConsoleFactory.novo(TipoArmazenamento.MEMORIA));
+        ContextoRepositorio.setTipoArmazenamento(TipoArmazenamento.MEMORIA);
+        Contexto.setApp(ConsoleFactory.novo());
 
         Contexto.iniciar();
     }

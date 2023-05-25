@@ -15,55 +15,51 @@ import br.com.gabrielgmusskopf.unisinos.infra.repositorio.restaurante.Restaurant
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class ContextoRepositorio {
 
-    private final TipoArmazenamento tipoArmazenamento;
-    private Map<Tipo, Repositorio<?,?>> cache = new HashMap<>();
+    private static TipoArmazenamento tipoArmazenamento;
+    private static final Map<Class<?>, Repositorio<?,?>> cache = new HashMap<>();
 
-    public ContextoRepositorio(TipoArmazenamento armazenamento) {
+    public static void setTipoArmazenamento(TipoArmazenamento armazenamento) {
         tipoArmazenamento = armazenamento;
     }
 
-    private enum Tipo {
-        RESTAURANTE, CLIENTE;
-    }
-
-    //TODO: Corrigir repositórios
-    public ClienteRepositorio clienteRepositorio(){
+    public static ClienteRepositorio clienteRepositorio(){
         return switch (tipoArmazenamento) {
-            case ARQUIVO -> (ClienteRepositorio) singleton(Tipo.CLIENTE, new ArquivoClienteRepositorio());
-            case MEMORIA -> (ClienteRepositorio) singleton(Tipo.CLIENTE, new MemoriaClienteRepositorio());
+            case ARQUIVO -> (ClienteRepositorio) singleton(new ArquivoClienteRepositorio());
+            case MEMORIA -> (ClienteRepositorio) singleton(new MemoriaClienteRepositorio());
         };
     }
 
-    public RestauranteRepositorio restauranteRepositorio(){
+    public static RestauranteRepositorio restauranteRepositorio(){
         return switch (tipoArmazenamento) {
-            case ARQUIVO -> (RestauranteRepositorio) singleton(Tipo.RESTAURANTE, new ArquivoRestauranteRepositorio());
-            case MEMORIA -> (RestauranteRepositorio) singleton(Tipo.RESTAURANTE, new MemoriaRestauranteRepositorio());
+            case ARQUIVO -> (RestauranteRepositorio) singleton(new ArquivoRestauranteRepositorio());
+            case MEMORIA -> (RestauranteRepositorio) singleton(new MemoriaRestauranteRepositorio());
         };
     }
 
-    public PedidoRepositorio pedidoRepositorio(){
+    public static PedidoRepositorio pedidoRepositorio(){
         return switch (tipoArmazenamento) {
-            case ARQUIVO -> new ArquivoPedidoRepositorio();
-            case MEMORIA ->  new MemoriaPedidoRepositorio();
+            case ARQUIVO -> (PedidoRepositorio) singleton(new ArquivoPedidoRepositorio());
+            case MEMORIA ->  (PedidoRepositorio) singleton(new MemoriaPedidoRepositorio());
         };
     }
 
-    public ProdutoRepositorio produtoRepositorio(){
+    public static ProdutoRepositorio produtoRepositorio(){
         return switch (tipoArmazenamento) {
-            case ARQUIVO -> new ArquivoProdutoRepositorio();
-            case MEMORIA -> new MemoriaProdutoRepositorio();
+            case ARQUIVO -> (ProdutoRepositorio) singleton(new ArquivoProdutoRepositorio());
+            case MEMORIA -> (ProdutoRepositorio) singleton(new MemoriaProdutoRepositorio());
         };
     }
 
-    private <ID, T> Repositorio<ID,T> singleton(Tipo tipo, Repositorio<ID, T> repositorio) {
-        var r = cache.get(tipo);
+    private static Repositorio<?,?> singleton(Repositorio<?,?> repositorio) {
+        var r = cache.get(repositorio.getClass());
         if (r != null) {
-            return (Repositorio<ID, T>) r;
+            return r;
         }
-        cache.put(tipo, repositorio);
+        cache.put(repositorio.getClass(), repositorio);
         return repositorio;
     }
 

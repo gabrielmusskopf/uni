@@ -1,8 +1,10 @@
-package br.com.gabrielgmusskopf.unisinos.infra.cli;
+package br.com.gabrielgmusskopf.unisinos.infra.cli.home;
+
+import br.com.gabrielgmusskopf.unisinos.infra.cli.ComandoCli;
 
 import java.util.Arrays;
 
-public enum HomeComando implements Comando {
+public enum HomeComandoCli implements ComandoCli {
 
     NOVO_RESTAURANTE(1, "Novo restaurante"),
     ESCOLHER_RESTAURANTE(2, "Escolher restaurante"),
@@ -12,13 +14,13 @@ public enum HomeComando implements Comando {
     private final int numero;
     private final String descricao;
 
-    HomeComando(int i, String s) {
+    HomeComandoCli(int i, String s) {
         this.numero = i;
         this.descricao = s;
     }
 
-    public static HomeComando numero(int n) {
-        return Arrays.stream(HomeComando.values())
+    public static HomeComandoCli numero(int n) {
+        return Arrays.stream(HomeComandoCli.values())
                 .filter(c -> c.getNumero() == n)
                 .findFirst()
                 .orElse(null);

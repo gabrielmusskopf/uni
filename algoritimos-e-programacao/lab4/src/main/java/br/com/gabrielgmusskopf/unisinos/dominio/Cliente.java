@@ -18,6 +18,10 @@ public class Cliente {
         this.nome = nome;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
     public String toString() {
         return id + "-" + nome;
     }

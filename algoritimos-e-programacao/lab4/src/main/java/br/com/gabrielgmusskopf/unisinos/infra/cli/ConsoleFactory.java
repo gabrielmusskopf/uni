@@ -6,8 +6,8 @@ import br.com.gabrielgmusskopf.unisinos.infra.repositorio.TipoArmazenamento;
 
 public class ConsoleFactory {
 
-    public static App novo(TipoArmazenamento armazenamento) {
-        var manager = new ConsoleManager(new ContextoRepositorio(armazenamento));
+    public static App novo() {
+        var manager = new ConsoleManager();
         manager.login();
         return manager;
     }

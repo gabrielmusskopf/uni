@@ -13,7 +13,7 @@ public class Contexto {
 
     public static void iniciar() {
         if (app == null) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Um App deve ser informado");
         }
         executando = true;
 
@@ -25,10 +25,6 @@ public class Contexto {
 
     public static void finalizar() {
         executando = false;
-    }
-
-    public static boolean executando() {
-        return executando;
     }
 
 }

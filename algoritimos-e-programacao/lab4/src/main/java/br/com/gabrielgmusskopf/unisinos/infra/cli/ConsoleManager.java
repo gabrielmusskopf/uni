@@ -2,32 +2,33 @@ package br.com.gabrielgmusskopf.unisinos.infra.cli;
 
 import br.com.gabrielgmusskopf.unisinos.comando.App;
 import br.com.gabrielgmusskopf.unisinos.dominio.Restaurante;
-import br.com.gabrielgmusskopf.unisinos.infra.repositorio.ContextoRepositorio;
+import br.com.gabrielgmusskopf.unisinos.infra.cli.auth.AutenticacaoConsole;
+import br.com.gabrielgmusskopf.unisinos.infra.cli.home.HomeConsole;
+import br.com.gabrielgmusskopf.unisinos.infra.cli.restaurante.RestauranteConsole;
+
+import java.util.Stack;
 
 public class ConsoleManager implements App {
 
+    private Stack<Console> historicoConsole;
     private Console atual;
-    private Console autenticacacao;
-    private Console principal;
-    private Console restaurante;
-    private ContextoRepositorio ctxRepositorio;
+    private final Console autenticacacao;
+    private final Console principal;
 
-    public ConsoleManager(ContextoRepositorio ctxRepositorio) {
-        this.autenticacacao = new AutenticacaoConsole(ctxRepositorio, this);
-        this.principal = new MainConsole(ctxRepositorio, this);
-        this.ctxRepositorio = ctxRepositorio;
+        public ConsoleManager() {
+        this.autenticacacao = new AutenticacaoConsole(this);
+        this.principal = new HomeConsole(this);
+        this.historicoConsole = new Stack<>();
     }
 
     /*
+                                  ___________
+                                 |           |
     AUTENTICACAO -> MENU -> RESTAURANTE -> PERFIL
                       ^          |           |
                       |          |           |
                       ------------ <---------
      */
-
-    public Console getAtual() {
-        return atual;
-    }
 
     @Override
     public void disponibilizar() {
@@ -40,15 +41,26 @@ public class ConsoleManager implements App {
     }
 
     public void login() {
-        atual = autenticacacao;
+        moverPara(autenticacacao);
     }
 
     public void home(){
-       atual = principal;
+        moverPara(principal);
     }
 
     public void restaurante(Restaurante escolhido){
-        atual = new RestauranteConsole(escolhido, ctxRepositorio, this);
+        moverPara(new RestauranteConsole(escolhido, this));
+    }
+
+    public void voltar() {
+        if (!historicoConsole.empty()){
+            atual = historicoConsole.pop();
+        }
+    }
+
+    private void moverPara(Console console) {
+        historicoConsole.add(atual);
+        atual = console;
     }
 
 }

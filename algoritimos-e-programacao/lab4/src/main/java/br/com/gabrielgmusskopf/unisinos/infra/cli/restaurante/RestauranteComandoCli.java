@@ -1,23 +1,26 @@
-package br.com.gabrielgmusskopf.unisinos.infra.cli;
+package br.com.gabrielgmusskopf.unisinos.infra.cli.restaurante;
+
+import br.com.gabrielgmusskopf.unisinos.infra.cli.ComandoCli;
 
 import java.util.Arrays;
 
-public enum RestauranteComando implements Comando {
+public enum RestauranteComandoCli implements ComandoCli {
 
     NOVO_PEDIDO(1, "Novo pedido"),
-    CANCELAR(2, "Sair"),
+    VOLTAR(2, "Voltar"),
+    CANCELAR(3, "Sair"),
     ;
 
     private final int numero;
     private final String descricao;
 
-    RestauranteComando(int i, String s) {
+    RestauranteComandoCli(int i, String s) {
         this.numero = i;
         this.descricao = s;
     }
 
-    public static RestauranteComando numero(int n) {
-        return Arrays.stream(RestauranteComando.values())
+    public static RestauranteComandoCli numero(int n) {
+        return Arrays.stream(RestauranteComandoCli.values())
                 .filter(c -> c.getNumero() == n)
                 .findFirst()
                 .orElse(null);
