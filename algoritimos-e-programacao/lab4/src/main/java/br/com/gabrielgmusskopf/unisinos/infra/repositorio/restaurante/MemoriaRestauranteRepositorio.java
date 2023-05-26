@@ -41,6 +41,11 @@ public class MemoriaRestauranteRepositorio implements RestauranteRepositorio {
     }
 
     @Override
+    public Optional<Restaurante> buscarPorId(String s) {
+        return Optional.empty();
+    }
+
+    @Override
     public void remover(Restaurante restaurante) {
         restaurantes.remove(restaurante);
     }

@@ -3,6 +3,8 @@ package br.com.gabrielgmusskopf.unisinos.infra.repositorio;
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.cliente.ArquivoUsuarioRepositorio;
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.cliente.MemoriaUsuarioRepositorio;
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.cliente.UsuarioRepositorio;
+import br.com.gabrielgmusskopf.unisinos.infra.repositorio.estoque.ArquivoEstoqueRepositorio;
+import br.com.gabrielgmusskopf.unisinos.infra.repositorio.estoque.EstoqueRepositorio;
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.pedido.ArquivoPedidoRepositorio;
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.pedido.MemoriaPedidoRepositorio;
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.pedido.PedidoRepositorio;
@@ -27,9 +29,10 @@ public class ContextoRepositorio {
     public static void bootstrap(TipoArmazenamento armazenamento) {
         tipoArmazenamento = armazenamento;
         usuarioRepositorio();
+        produtoRepositorio();
+        estoqueRepositorio();
         restauranteRepositorio();
         pedidoRepositorio();
-        produtoRepositorio();
     }
 
     public static UsuarioRepositorio usuarioRepositorio(){
@@ -57,6 +60,13 @@ public class ContextoRepositorio {
         return switch (tipoArmazenamento) {
             case ARQUIVO -> (ProdutoRepositorio) singleton(new ArquivoProdutoRepositorio());
             case MEMORIA -> (ProdutoRepositorio) singleton(new MemoriaProdutoRepositorio());
+        };
+    }
+
+    public static EstoqueRepositorio estoqueRepositorio(){
+        return switch (tipoArmazenamento) {
+            case ARQUIVO -> (EstoqueRepositorio) singleton(new ArquivoEstoqueRepositorio());
+            case MEMORIA -> throw new ArmazenamentoNaoSuportadoException();
         };
     }
 

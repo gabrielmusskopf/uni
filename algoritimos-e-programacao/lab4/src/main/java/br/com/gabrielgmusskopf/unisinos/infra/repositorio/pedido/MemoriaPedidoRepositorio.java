@@ -23,6 +23,11 @@ public class MemoriaPedidoRepositorio implements PedidoRepositorio{
     }
 
     @Override
+    public Optional<Pedido> buscarPorId(String s) {
+        return Optional.empty();
+    }
+
+    @Override
     public void remover(Pedido pedido) {
 
     }

@@ -9,6 +9,8 @@ public interface Repositorio<ID, T> {
 
     Optional<T> buscar(T t);
 
+    Optional<T> buscarPorId(ID id);
+
     void remover(T t);
 
     List<T> buscarTodos();

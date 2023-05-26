@@ -22,6 +22,11 @@ public class MemoriaUsuarioRepositorio implements UsuarioRepositorio {
     }
 
     @Override
+    public Optional<Usuario> buscarPorId(String s) {
+        return Optional.empty();
+    }
+
+    @Override
     public void remover(Usuario usuario) {
 
     }

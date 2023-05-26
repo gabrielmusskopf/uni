@@ -5,7 +5,7 @@ import java.util.UUID;
 
 // Adicionar listener para o pedido. Ser notificado quando alterar o estado
 
-public class Usuario implements Serializable {
+public class Usuario implements Dominio, Serializable {
 
     private static final long serialVersionUID = 6008152717531275174L;
     private final UUID id;
@@ -16,9 +16,13 @@ public class Usuario implements Serializable {
         this.nome = nome;
     }
 
-    public Usuario(String id, String nome) {
+    private Usuario(String id, String nome) {
         this.id = UUID.fromString(id);
         this.nome = nome;
+    }
+
+    public static Usuario recuperar(String id, String nome) {
+        return new Usuario(id, nome);
     }
 
     public String getId() {

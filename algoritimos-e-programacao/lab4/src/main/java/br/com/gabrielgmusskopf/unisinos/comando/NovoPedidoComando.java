@@ -17,7 +17,7 @@ public class NovoPedidoComando {
     }
 
     public Pedido criar(Usuario usuario, Restaurante restaurante, List<Produto> produtos) {
-        var p = new Pedido(usuario, restaurante, produtos);
+        var p = new Pedido(usuario, produtos);
         restaurante.novoPedido(p);
         pedidoRepositorio.salvar(p);
 

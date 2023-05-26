@@ -1,25 +1,26 @@
 package br.com.gabrielgmusskopf.unisinos.infra.repositorio.produto;
 
 import br.com.gabrielgmusskopf.unisinos.dominio.Produto;
-import br.com.gabrielgmusskopf.unisinos.infra.repositorio.ArquivoRepositorio;
+import br.com.gabrielgmusskopf.unisinos.infra.repositorio.RepositorioArquivos;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class ArquivoProdutoRepositorio extends ArquivoRepositorio implements ProdutoRepositorio {
+public class ArquivoProdutoRepositorio extends RepositorioArquivos<Produto> implements ProdutoRepositorio {
 
     private final List<Produto> produtos;
 
     public ArquivoProdutoRepositorio() {
         produtos = new ArrayList<>();
         carregar(produtos);
-        escreverAoFinal();
+        escreverAoFinal("id,nome,valor,ingredientes");
     }
 
     @Override
     protected String caminhoData() {
-        return "data/produtos.ser";
+        return "data/produtos.csv";
     }
 
     @Override
@@ -36,6 +37,11 @@ public class ArquivoProdutoRepositorio extends ArquivoRepositorio implements Pro
     }
 
     @Override
+    public Optional<Produto> buscarPorId(String s) {
+        return Optional.empty();
+    }
+
+    @Override
     public void remover(Produto produto) {
         produtos.remove(produto);
     }
@@ -43,5 +49,17 @@ public class ArquivoProdutoRepositorio extends ArquivoRepositorio implements Pro
     @Override
     public List<Produto> buscarTodos() {
         return produtos;
+    }
+
+    @Override
+    protected void recuperarElemento(String[] valores) {
+        var ingredientes = stringToList(valores, 3);
+        produtos.add(Produto.recuperar(valores[0], valores[1], Double.parseDouble(valores[2]), ingredientes));
+    }
+
+
+    @Override
+    protected List<?> escreverValores(Produto produto) {
+        return List.of(produto.getId(), produto.getNome(), produto.getValor(), produto.getIngredientes());
     }
 }

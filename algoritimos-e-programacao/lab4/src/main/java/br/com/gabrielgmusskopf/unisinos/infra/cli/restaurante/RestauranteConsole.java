@@ -122,7 +122,7 @@ public class RestauranteConsole extends ConsoleAbstrato {
 
         //Confirmação
 
-        new NovoProdutoComando(ContextoRepositorio.restauranteRepositorio())
+        new NovoProdutoComando(ContextoRepositorio.restauranteRepositorio(), ContextoRepositorio.produtoRepositorio())
                 .adicionar(restaurante, new Produto(n, preco, ingredientes));
 
         System.out.printf("%n%s criado!%n", n);

@@ -29,6 +29,11 @@ public class MemoriaProdutoRepositorio implements ProdutoRepositorio {
     }
 
     @Override
+    public Optional<Produto> buscarPorId(String s) {
+        return Optional.empty();
+    }
+
+    @Override
     public void remover(Produto produto) {
         produtosMemoria.remove(produto);
     }

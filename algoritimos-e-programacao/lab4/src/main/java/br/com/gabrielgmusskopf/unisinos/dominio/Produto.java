@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
-public class Produto implements Serializable {
+public class Produto implements Dominio, Serializable {
 
     private static final long serialVersionUID = -2337329990367469592L;
     private final UUID id;
@@ -12,8 +12,19 @@ public class Produto implements Serializable {
     private final double valor;
     private final List<String> ingredientes;
 
+    public static Produto recuperar(String id, String nome, double valor, List<String> ingredientes) {
+        return new Produto(id, nome, valor, ingredientes);
+    }
+
     public Produto(String nome, double valor, List<String> ingredientes) {
         this.id = UUID.randomUUID();
+        this.nome = nome;
+        this.valor = valor;
+        this.ingredientes = ingredientes;
+    }
+
+    private Produto(String id, String nome, double valor, List<String> ingredientes) {
+        this.id = UUID.fromString(id);
         this.nome = nome;
         this.valor = valor;
         this.ingredientes = ingredientes;

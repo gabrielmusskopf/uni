@@ -1,14 +1,32 @@
 package br.com.gabrielgmusskopf.unisinos.dominio;
 
+import br.com.gabrielgmusskopf.unisinos.infra.repositorio.estoque.EstoqueRepositorio;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
-public class Estoque implements Serializable {
+public class Estoque implements Serializable, Dominio {
 
     private static final long serialVersionUID = 1518914179246622597L;
-    private final Map<String, Integer> ingredientes = new HashMap<>();
+    private final UUID id;
+    private final Map<String, Integer> ingredientes;
+
+    public Estoque() {
+        id = UUID.randomUUID();
+        ingredientes = new HashMap<>();
+    }
+
+    private Estoque(String id, Map<String, Integer> ingredientes) {
+        this.id = UUID.fromString(id);
+        this.ingredientes = ingredientes;
+    }
+
+    public static Estoque recuperar(String id, Map<String, Integer> ingredientes) {
+        return new Estoque(id, ingredientes);
+    }
 
     public void abastecer(String... novosIngredientes) {
         for (String ingrediente: novosIngredientes) {
@@ -36,4 +54,7 @@ public class Estoque implements Serializable {
         return ingredientes;
     }
 
+    public String getId() {
+        return id.toString();
+    }
 }

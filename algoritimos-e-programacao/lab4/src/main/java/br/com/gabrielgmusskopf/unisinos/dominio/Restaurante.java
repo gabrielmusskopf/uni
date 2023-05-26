@@ -7,7 +7,7 @@ import br.com.gabrielgmusskopf.unisinos.dominio.pedido.Pedido;
 import java.io.Serializable;
 import java.util.*;
 
-public class Restaurante implements Serializable {
+public class Restaurante implements Dominio, Serializable {
 
     private static final long serialVersionUID = 8453435229433626592L;
     private final UUID id;
@@ -17,17 +17,29 @@ public class Restaurante implements Serializable {
     private Set<Produto> produtos;
     private PedidoProcessador pedidoProcessador;
 
-    public Restaurante(String nome) {
-        this(nome, new Estoque());
+    public static Restaurante recuperar(String id, String nome, Queue<Pedido> pedidos, Estoque estoque, Set<Produto> produtos) {
+        return new Restaurante(id, nome, pedidos, estoque, produtos);
     }
 
     public Restaurante(String nome, Estoque estoque) {
-        this.id = UUID.randomUUID();
+        this(UUID.randomUUID().toString(), nome, new LinkedList<>(), estoque, new HashSet<>());
+    }
+
+    private Restaurante(String id, String nome, Queue<Pedido> pedidos, Estoque estoque, Set<Produto> produtos) {
+        this.id = UUID.fromString(id);
         this.nome = nome;
-        this.estoque = estoque;
-        this.pedidos = new LinkedList<>();
-        this.produtos = new HashSet<>();
+        this.estoque = estoque == null ? new Estoque() : estoque;
+        this.pedidos = pedidos;
+        this.produtos = produtos;
         this.pedidoProcessador = new PedidoProcessador();
+    }
+
+    public void atualizarElemento(Pedido pedido) {
+        pedidos.add(pedido);
+    }
+
+    public void atualizarElemento(Produto pedido) {
+        produtos.add(pedido);
     }
 
     public void novoPedido(Pedido pedido) {

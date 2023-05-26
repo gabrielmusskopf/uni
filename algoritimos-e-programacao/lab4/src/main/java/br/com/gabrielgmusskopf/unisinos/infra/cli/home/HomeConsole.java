@@ -41,8 +41,8 @@ public class HomeConsole extends ConsoleAbstrato {
     private void novoRestaurante() {
         System.out.print("\nNome do restaurante: ");
         var n = scanner.next();
-        var r = new NovoRestauranteComando.NovoRestauranteInput(n.trim());
-        var s = new NovoRestauranteComando(ContextoRepositorio.restauranteRepositorio()).criar(r);
+        var s = new NovoRestauranteComando(ContextoRepositorio.restauranteRepositorio(), ContextoRepositorio.estoqueRepositorio())
+                .criar(n.trim());
 
         System.out.printf("Restaurante %s criado!%n", s.getNome());
     }
@@ -78,7 +78,8 @@ public class HomeConsole extends ConsoleAbstrato {
                     .map(nome -> String.format("- %s\n", nome))
                     .collect(Collectors.joining());
 
-            System.out.printf("[%s] %s - R$%.2f\n%s\n", p.getEstado(), p.getRestaurante().getNome(), p.getCusto(), itens);
+            //System.out.printf("[%s] %s - R$%.2f\n%s\n", p.getEstado(), p.getRestaurante().getNome(), p.getCusto(), itens);
+            System.out.printf("[%s] - R$%.2f\n%s\n", p.getEstado(), p.getCusto(), itens);
         });
     }
 

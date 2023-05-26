@@ -40,4 +40,5 @@ public abstract class EstadoPedido implements Serializable {
     protected void cancelar() {
         throw new EstadoPedidoInvalidoException("Não é possível cancelar o pedido");
     }
+
 }
