@@ -8,9 +8,6 @@ import br.com.gabrielgmusskopf.unisinos.infra.cli.ConsoleAbstrato;
 import br.com.gabrielgmusskopf.unisinos.infra.cli.ConsoleManager;
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.ContextoRepositorio;
 
-import java.util.Arrays;
-import java.util.Comparator;
-
 public class AutenticacaoConsole extends ConsoleAbstrato {
 
     public AutenticacaoConsole(ConsoleManager consoleManager) {
@@ -20,13 +17,9 @@ public class AutenticacaoConsole extends ConsoleAbstrato {
     @Override
     public void exibir() {
         System.out.println("=== Unisinos KDS ===");
+        var opcoes = exibirOpcoes(AuthComandoCli.values());
 
-        Arrays.stream(AuthComandoCli.values())
-                .sorted(Comparator.comparing(AuthComandoCli::getNumero))
-                .forEach(c -> System.out.printf("%d %s\n", c.getNumero(), c.getDescricao()));
-
-        int escolha = buscarInteiro();
-        var opcao = AuthComandoCli.numero(escolha);
+        var opcao = opcoes.get(buscarInteiro());
         if (opcao == null) {
             System.out.println("Opção não encontrada...\n");
             return;

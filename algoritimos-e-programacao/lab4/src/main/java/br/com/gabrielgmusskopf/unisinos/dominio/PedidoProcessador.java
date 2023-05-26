@@ -9,6 +9,7 @@ public class PedidoProcessador implements Serializable {
     private static final long serialVersionUID = -7129758875938659761L;
 
     public void processar(Pedido pedido) {
+        //TODO: Adicionar log quando flag debug ativa
         new Thread(() -> {
             delay(5000);
 
@@ -18,8 +19,8 @@ public class PedidoProcessador implements Serializable {
             pedido.aprovar();
             delay(5000);
 
-            pedido.entregar();
-            delay(3000);
+            pedido.preparar();
+            delay(5000);
 
             pedido.aguardandoCliente();
         }).start();

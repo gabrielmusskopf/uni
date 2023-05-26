@@ -13,4 +13,6 @@ public class Main {
 
         Contexto.iniciar();
     }
+
+    //TODO: Filtrar comandos por perfil
 }

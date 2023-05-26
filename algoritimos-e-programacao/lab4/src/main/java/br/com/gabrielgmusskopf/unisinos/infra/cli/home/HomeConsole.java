@@ -10,8 +10,6 @@ import br.com.gabrielgmusskopf.unisinos.infra.cli.ConsoleAbstrato;
 import br.com.gabrielgmusskopf.unisinos.infra.cli.ConsoleManager;
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.ContextoRepositorio;
 
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.stream.Collectors;
 
 public class HomeConsole extends ConsoleAbstrato {
@@ -23,12 +21,9 @@ public class HomeConsole extends ConsoleAbstrato {
     @Override
     public void exibir() {
         System.out.println("\n----Menu----");
-        Arrays.stream(HomeComandoCli.values())
-                .sorted(Comparator.comparing(HomeComandoCli::getNumero))
-                .forEach(c -> System.out.printf("%d %s\n", c.getNumero(), c.getDescricao()));
+        var opcoes = exibirOpcoes(HomeComandoCli.values());
 
-        int escolha = buscarInteiro();
-        var opcao = HomeComandoCli.numero(escolha);
+        var opcao = opcoes.get(buscarInteiro());
         if (opcao == null) {
             System.out.println("Opção não encontrada...\n");
             consoleManager.home();

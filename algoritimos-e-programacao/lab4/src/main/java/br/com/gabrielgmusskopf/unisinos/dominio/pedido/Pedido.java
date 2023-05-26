@@ -48,12 +48,12 @@ public class Pedido implements Serializable {
         estado.aprovar();
     }
 
-    public boolean isAguardandoCliente(){
-        return estado instanceof PedidoAguardandoCliente;
+    public void preparar() {
+        estado.preparar();
     }
 
-    public void entregar() {
-        estado.entregar();
+    public boolean isAguardandoCliente(){
+        return estado instanceof PedidoAguardandoCliente;
     }
 
     public void aguardandoCliente() {

@@ -23,8 +23,17 @@ public class Estoque implements Serializable {
     }
 
     public boolean contem(List<String> i) {
-        return i.stream()
-                .allMatch(ingrediente -> ingredientes.containsKey(ingrediente));
+        return i.stream().allMatch(ingredientes::containsKey);
+    }
+
+    public void retirar(List<String> paraRemover) {
+        paraRemover.forEach(i ->
+            ingredientes.computeIfPresent(i, (ing, qtd) -> --qtd)
+        );
+    }
+
+    public Map<String, Integer> getIngredientes() {
+        return ingredientes;
     }
 
 }

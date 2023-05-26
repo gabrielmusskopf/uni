@@ -6,7 +6,8 @@ class PedidoAprovado extends EstadoPedido {
         super(pedido);
     }
 
-    protected void prontoParaEntrega() {
+    @Override
+    protected void preparar() {
         pedido.alterarEstado(new PedidoPreparando(pedido));
     }
 

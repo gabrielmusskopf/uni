@@ -6,12 +6,13 @@ class PedidoPreparando extends EstadoPedido {
         super(pedido);
     }
 
-    protected void entregar() {
+    @Override
+    protected void aguardandoCliente() {
         pedido.alterarEstado(new PedidoAguardandoCliente(pedido));
     }
 
     public String toString() {
-        return "Pronto para entrega";
+        return "Preparando";
     }
 
 }

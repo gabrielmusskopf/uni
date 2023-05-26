@@ -9,28 +9,24 @@ public enum RestauranteComandoCli implements ComandoCli {
     VER_PRODUTOS(1, "Produtos"),
     NOVO_PEDIDO(2, "Novo pedido"),
     FILA_PEDIDOS(3, "Ver fila de pedidos"),
-    VOLTAR(4, "Voltar"),
-    RETIRAR_PEDIO(5, "Retirar pedido"),
-    CANCELAR(6, "Sair"),
+    RETIRAR_PEDIO(4, "Retirar pedido"),
+    ADICIONAR_PRODUTOS(5, "Adicionar produtos"),
+    VER_ESTOQUE(6, "Ver estoque"),
+    ABASTECER_ESTOQUE(7, "Abastecer estoque"),
+    VOLTAR(Integer.MAX_VALUE - 1, "Voltar"),
+    CANCELAR(Integer.MAX_VALUE, "Sair"),
     ;
 
-    private final int numero;
+    private final int ordem;
     private final String descricao;
 
     RestauranteComandoCli(int i, String s) {
-        this.numero = i;
+        this.ordem = i;
         this.descricao = s;
     }
 
-    public static RestauranteComandoCli numero(int n) {
-        return Arrays.stream(RestauranteComandoCli.values())
-                .filter(c -> c.getNumero() == n)
-                .findFirst()
-                .orElse(null);
-    }
-
-    public int getNumero() {
-        return numero;
+    public int getOrdem() {
+        return ordem;
     }
 
     public String getDescricao() {

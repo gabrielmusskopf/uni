@@ -15,10 +15,13 @@ public abstract class ConsoleAbstrato implements Console {
         this.consoleManager = consoleManager;
     }
 
-    protected void exibirOpcoes(ComandoCli... comandoClis) {
-        Arrays.stream(comandoClis)
-                .sorted(Comparator.comparing(ComandoCli::getNumero))
-                .forEach(c -> System.out.printf("%d %s\n", c.getNumero(), c.getDescricao()));
+    protected <T extends Enum<?> & ComandoCli> Map<Integer, T> exibirOpcoes(T... comandoClis) {
+        Collections.sort(new ArrayList<>(List.of(comandoClis)), Comparator.comparing(ComandoCli::getOrdem));
+
+        return IntStream.range(0, comandoClis.length)
+                .boxed()
+                .peek(i -> System.out.printf("%d %s%n", i + 1, comandoClis[i].getDescricao()))
+                .collect(Collectors.toMap(i -> i + 1, i -> comandoClis[i]));
     }
 
     protected <T> Map<Integer, T> montarOpcoes(List<T> produtos) {

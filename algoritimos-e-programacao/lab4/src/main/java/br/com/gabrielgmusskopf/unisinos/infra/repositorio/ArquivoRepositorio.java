@@ -32,15 +32,6 @@ public abstract class ArquivoRepositorio {
             }
         }));
 
-        /*
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("src/main/resources/" + caminhoData()))) {
-                outputStream.writeObject(buscarTodos());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }));
-         */
     }
 
 

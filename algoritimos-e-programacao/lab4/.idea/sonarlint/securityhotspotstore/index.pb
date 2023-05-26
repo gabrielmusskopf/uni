@@ -19,8 +19,6 @@ Usrc/main/java/br/com/gabrielgmusskopf/unisinos/comando/BuscarRestaurantesComand
 Psrc/main/java/br/com/gabrielgmusskopf/unisinos/comando/BuscarClienteComando.java,9/a/9ae9f34937302dfc801a5891c3632e700b25299b
 ê
 `src/main/java/br/com/gabrielgmusskopf/unisinos/infra/repositorio/cliente/ClienteRepositorio.java,8/a/8a51fcc7d1f7b736c07283429fd50bb64eefa427
-x
-Hsrc/main/java/br/com/gabrielgmusskopf/unisinos/infra/cli/ComandoCli.java,5/3/53f0747c5cd967ed732555efcdc4203660c42998
 u
 Esrc/main/java/br/com/gabrielgmusskopf/unisinos/infra/cli/Console.java,4/2/4207a6bf8fef51eb2911adba6258bc2debe81010
 |

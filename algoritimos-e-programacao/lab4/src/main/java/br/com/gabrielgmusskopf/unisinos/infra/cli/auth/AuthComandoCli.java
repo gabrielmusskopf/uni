@@ -2,32 +2,23 @@ package br.com.gabrielgmusskopf.unisinos.infra.cli.auth;
 
 import br.com.gabrielgmusskopf.unisinos.infra.cli.ComandoCli;
 
-import java.util.Arrays;
-
 public enum AuthComandoCli implements ComandoCli {
 
     CADASTRAR(1, "Cadastrar"),
     ENTRAR(2, "Entrar"),
-    SAIR(3, "Sair"),
+    SAIR(Integer.MAX_VALUE, "Sair"),
     ;
 
-    private final int numero;
+    private final int ordem;
     private final String descricao;
 
     AuthComandoCli(int i, String s) {
-        this.numero = i;
+        this.ordem = i;
         this.descricao = s;
     }
 
-    public static AuthComandoCli numero(int n) {
-        return Arrays.stream(AuthComandoCli.values())
-                .filter(c -> c.getNumero() == n)
-                .findFirst()
-                .orElse(null);
-    }
-
-    public int getNumero() {
-        return numero;
+    public int getOrdem() {
+        return ordem;
     }
 
     public String getDescricao() {

@@ -2,7 +2,7 @@ package br.com.gabrielgmusskopf.unisinos.infra.cli;
 
 public interface ComandoCli {
 
-    int getNumero();
+    int getOrdem();
     String getDescricao();
 
 }

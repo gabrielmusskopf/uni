@@ -1,5 +1,6 @@
 package br.com.gabrielgmusskopf.unisinos.infra.cli.restaurante;
 
+import br.com.gabrielgmusskopf.unisinos.NovoProdutoComando;
 import br.com.gabrielgmusskopf.unisinos.comando.NovoPedidoComando;
 import br.com.gabrielgmusskopf.unisinos.comando.RetirarPedidoComando;
 import br.com.gabrielgmusskopf.unisinos.dominio.Produto;
@@ -12,6 +13,7 @@ import br.com.gabrielgmusskopf.unisinos.infra.cli.ConsoleAbstrato;
 import br.com.gabrielgmusskopf.unisinos.infra.cli.ConsoleManager;
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.ContextoRepositorio;
 
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class RestauranteConsole extends ConsoleAbstrato {
@@ -26,10 +28,9 @@ public class RestauranteConsole extends ConsoleAbstrato {
     @Override
    public void exibir() {
         System.out.printf("\n---- %s ----%n", restaurante.getNome());
-        exibirOpcoes(RestauranteComandoCli.values());
+        var opcoes = exibirOpcoes(RestauranteComandoCli.values());
 
-        int escolha = buscarInteiro();
-        var opcao = RestauranteComandoCli.numero(escolha);
+        var opcao = opcoes.get(buscarInteiro());
         if (opcao == null) {
             System.out.println("Opção não encontrada...\n");
             consoleManager.home();
@@ -42,7 +43,12 @@ public class RestauranteConsole extends ConsoleAbstrato {
            case NOVO_PEDIDO -> novoPedido();
            case FILA_PEDIDOS -> exibirFilaPedidos();
            case RETIRAR_PEDIO -> retirarPedido();
+           case ADICIONAR_PRODUTOS -> adicionarProdutos();
+           case VER_ESTOQUE -> verEstoque();
+           case ABASTECER_ESTOQUE -> abastecerEstoque();
            case VOLTAR -> consoleManager.voltar();
+           default -> {
+           }
        }
    }
 
@@ -69,10 +75,14 @@ public class RestauranteConsole extends ConsoleAbstrato {
 
         var produtosEscolhidos = selecionarOpcoes(opcoes);
 
-        new NovoPedidoComando(ContextoRepositorio.pedidoRepositorio())
-                .criar(AutenticacaoContexto.getAutenticado(), restaurante, produtosEscolhidos);
+        try {
+            new NovoPedidoComando(ContextoRepositorio.pedidoRepositorio())
+                    .criar(AutenticacaoContexto.getAutenticado(), restaurante, produtosEscolhidos);
+            System.out.print("\nPedido criado!\n");
+        }catch (RestauranteException re) {
+            System.out.printf("%n%s%n", re.getMessage());
+        }
 
-        System.out.print("\nPedido criado!\n");
     }
 
     private void exibirFilaPedidos() {
@@ -97,6 +107,43 @@ public class RestauranteConsole extends ConsoleAbstrato {
         } catch (RestauranteException re) {
             System.out.printf("%n%s%n", re.getMessage());
         }
+    }
+
+    private void adicionarProdutos() {
+        System.out.print("Nome do produto: ");
+        var n = scanner.next();
+
+        System.out.print("Preço: R$");
+        var preco = Double.parseDouble(scanner.next());
+
+        System.out.print("Ingredientes (separados por espaço): ");
+        var ingredientes = Arrays.stream(scanner.next().trim().split(" "))
+                .toList();
+
+        //Confirmação
+
+        new NovoProdutoComando(ContextoRepositorio.restauranteRepositorio())
+                .adicionar(restaurante, new Produto(n, preco, ingredientes));
+
+        System.out.printf("%n%s criado!%n", n);
+    }
+
+    private void verEstoque() {
+        System.out.println("\tEstoque:\t");
+        var estoque = restaurante.getEstoque().getIngredientes();
+        if (estoque.isEmpty()) {
+            System.out.println("\nNão há ingredientes.");
+            return;
+        }
+
+        estoque.forEach((ingrediente, quantidade) -> System.out.printf("%s - %d%n", ingrediente, quantidade));
+    }
+
+    private void abastecerEstoque() {
+        // mudar para "Item quantidade" por linha
+        System.out.println("\nDigite os ingredientes para inserir ao estoque, separados por espaço:");
+        var ingredientes = scanner.next().trim().split(" ");
+        restaurante.getEstoque().abastecer(ingredientes);
     }
 
 }

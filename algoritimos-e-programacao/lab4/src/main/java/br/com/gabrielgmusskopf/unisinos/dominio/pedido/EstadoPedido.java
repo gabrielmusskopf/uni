@@ -2,8 +2,11 @@ package br.com.gabrielgmusskopf.unisinos.dominio.pedido;
 
 import br.com.gabrielgmusskopf.unisinos.dominio.execao.EstadoPedidoInvalidoException;
 
-public abstract class EstadoPedido {
+import java.io.Serializable;
 
+public abstract class EstadoPedido implements Serializable {
+
+    private static final long serialVersionUID = -327681301896308662L;
     protected Pedido pedido;
 
     protected EstadoPedido(Pedido pedido) {
@@ -22,8 +25,8 @@ public abstract class EstadoPedido {
         throw new EstadoPedidoInvalidoException("Não é possível aprovar o pedido");
     }
 
-    protected void entregar() {
-        throw new EstadoPedidoInvalidoException("Não é possível entregar o pedido");
+    protected void preparar() {
+        throw new EstadoPedidoInvalidoException("Não é possível preparar o pedido");
     }
 
     protected void aguardandoCliente() {

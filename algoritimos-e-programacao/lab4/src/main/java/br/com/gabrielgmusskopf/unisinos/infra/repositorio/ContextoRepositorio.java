@@ -77,4 +77,5 @@ public class ContextoRepositorio {
     public static void armazenar() {
         armazenamentoThreads.forEach(Thread::run);
     }
+
 }

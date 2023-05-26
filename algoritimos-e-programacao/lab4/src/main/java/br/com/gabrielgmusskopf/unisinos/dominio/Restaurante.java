@@ -34,6 +34,14 @@ public class Restaurante implements Serializable {
         if (!ingredientesEmEstoque(pedido)) {
             throw new IngredientesInsuficientesException();
         }
+
+        var ingredientes = pedido.getProdutos()
+                .stream()
+                .map(Produto::getIngredientes)
+                .flatMap(Collection::stream)
+                .toList();
+
+        estoque.retirar(ingredientes);
         pedidos.add(pedido);
         pedidoProcessador.processar(pedido);
     }
