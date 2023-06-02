@@ -1,6 +1,6 @@
 package br.com.gabrielgmusskopf.unisinos.infra.cli.restaurante;
 
-import br.com.gabrielgmusskopf.unisinos.NovoProdutoComando;
+import br.com.gabrielgmusskopf.unisinos.comando.NovoProdutoComando;
 import br.com.gabrielgmusskopf.unisinos.comando.AbastecerEstoqueComando;
 import br.com.gabrielgmusskopf.unisinos.comando.NovoPedidoComando;
 import br.com.gabrielgmusskopf.unisinos.comando.RetirarPedidoComando;
