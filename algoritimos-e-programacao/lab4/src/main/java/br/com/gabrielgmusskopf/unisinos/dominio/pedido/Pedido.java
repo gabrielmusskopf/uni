@@ -1,29 +1,24 @@
 package br.com.gabrielgmusskopf.unisinos.dominio.pedido;
 
-import br.com.gabrielgmusskopf.unisinos.dominio.Dominio;
-import br.com.gabrielgmusskopf.unisinos.dominio.Produto;
-import br.com.gabrielgmusskopf.unisinos.dominio.Usuario;
-
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class Pedido implements Dominio, Serializable {
+import br.com.gabrielgmusskopf.unisinos.dominio.Dominio;
+import br.com.gabrielgmusskopf.unisinos.dominio.Produto;
+import br.com.gabrielgmusskopf.unisinos.dominio.Usuario;
+import br.com.gabrielgmusskopf.unisinos.infra.Contexto;
 
-    private static final long serialVersionUID = -7097901326783065464L;
+public class Pedido implements Dominio {
 
     private final UUID id;
     private final Usuario usuario;
     private final Double custo;
-    private List<Produto> produtos;
+    private final List<Produto> produtos;
     private EstadoPedido estado;
 
-
-    public static Pedido recuperar(String id, Usuario usuario, double custo, List<Produto> produtos) {
-        //TODO implementar com EstadoPedido
-        return new Pedido(id, usuario, custo, produtos);
+    public static Pedido recuperar(String id, Usuario usuario, double custo, List<Produto> produtos, String estado) {
+        return new Pedido(id, usuario, custo, produtos, estado);
     }
 
     public Pedido(Usuario usuario, Produto... produtos) {
@@ -38,12 +33,13 @@ public class Pedido implements Dominio, Serializable {
         this.estado = new PedidoCriado(this);
     }
 
-    private Pedido(String id, Usuario usuario, double custo, List<Produto> produtos) {
+    private Pedido(String id, Usuario usuario, double custo, List<Produto> produtos, String estado) {
         this.id = UUID.fromString(id);
         this.usuario = usuario;
         this.produtos = produtos;
         this.custo = custo;
-        this.estado = new PedidoCriado(this);
+        // Feito pois pedidos recuperados não são mais processados, então, não podem mais serem retidados da fila
+		this.estado = EstadoPedido.recuperar(this, estado);
     }
 
     private double calcularCustoTotal(List<Produto> produtos) {

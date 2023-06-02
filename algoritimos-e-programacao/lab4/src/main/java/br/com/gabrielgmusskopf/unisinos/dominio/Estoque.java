@@ -1,16 +1,12 @@
 package br.com.gabrielgmusskopf.unisinos.dominio;
 
-import br.com.gabrielgmusskopf.unisinos.infra.repositorio.estoque.EstoqueRepositorio;
-
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class Estoque implements Serializable, Dominio {
+public class Estoque implements Dominio {
 
-    private static final long serialVersionUID = 1518914179246622597L;
     private final UUID id;
     private final Map<String, Integer> ingredientes;
 
@@ -41,7 +37,7 @@ public class Estoque implements Serializable, Dominio {
     }
 
     public boolean contem(List<String> i) {
-        return i.stream().allMatch(ingredientes::containsKey);
+        return i.stream().allMatch(ing -> ingredientes.containsKey(ing) && ingredientes.get(ing) > 0);
     }
 
     public void retirar(List<String> paraRemover) {

@@ -12,6 +12,50 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <debugFlag/>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.leego</groupId>
+            <artifactId>banana</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <mainClass>br.com.gabrielgmusskopf.unisinos.Main</mainClass>
+                    <arguguments>
+                        <argument>{debugFlag}</argument>
+                    </arguguments>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>17</source>
+                    <target>17</target>
+                    <compilerArgs>--enable-preview</compilerArgs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>debug</id>
+            <properties>
+                <debugFlag>--debug</debugFlag>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>

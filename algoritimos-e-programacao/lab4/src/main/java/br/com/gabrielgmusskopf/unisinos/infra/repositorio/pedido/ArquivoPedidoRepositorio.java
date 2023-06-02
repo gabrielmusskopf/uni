@@ -2,22 +2,27 @@ package br.com.gabrielgmusskopf.unisinos.infra.repositorio.pedido;
 
 import br.com.gabrielgmusskopf.unisinos.dominio.Usuario;
 import br.com.gabrielgmusskopf.unisinos.dominio.pedido.Pedido;
+import br.com.gabrielgmusskopf.unisinos.infra.Log;
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.ContextoRepositorio;
-import br.com.gabrielgmusskopf.unisinos.infra.repositorio.RepositorioArquivos;
+import br.com.gabrielgmusskopf.unisinos.infra.repositorio.RepositorioCSV;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-public class ArquivoPedidoRepositorio extends RepositorioArquivos<Pedido> implements PedidoRepositorio {
+public class ArquivoPedidoRepositorio extends RepositorioCSV<Pedido> implements PedidoRepositorio {
 
     private final List<Pedido> pedidos;
 
     public ArquivoPedidoRepositorio() {
         pedidos = new ArrayList<>();
-        carregar(pedidos);
-        escreverAoFinal("id,usuario,custo,produtos,estado");
+        inicializar();
+        Log.debug("Repositório CSV de pedido criado");
+    }
+
+    @Override
+    protected String cabecalho() {
+        return "id,usuario,custo,produtos,estado";
     }
 
     @Override
@@ -27,6 +32,9 @@ public class ArquivoPedidoRepositorio extends RepositorioArquivos<Pedido> implem
 
     @Override
     public Pedido salvar(Pedido pedido) {
+        buscarPorId(pedido.getId())
+                .ifPresent(this::remover);
+
         pedidos.add(pedido);
         return pedido;
     }
@@ -60,19 +68,19 @@ public class ArquivoPedidoRepositorio extends RepositorioArquivos<Pedido> implem
         var id = valores[0];
         var usuarioId = valores[1];
         var custo = Double.parseDouble(valores[2]);
-        var produtoIds = stringToList(valores, 3);
+        var produtoIds = lerList(valores[3]);
 
         var usuario = ContextoRepositorio.usuarioRepositorio()
                 .buscarPorId(usuarioId)
                 .orElse(null);
 
         var produtos = produtoIds.stream()
-                .map(i ->ContextoRepositorio.produtoRepositorio()
+                .map(i -> ContextoRepositorio.produtoRepositorio()
                 .buscarPorId(i)
                 .orElse(null))
                 .toList();
 
-        pedidos.add(Pedido.recuperar(id, usuario, custo, produtos));
+        pedidos.add(Pedido.recuperar(id, usuario, custo, produtos, valores[4]));
     }
 
     @Override

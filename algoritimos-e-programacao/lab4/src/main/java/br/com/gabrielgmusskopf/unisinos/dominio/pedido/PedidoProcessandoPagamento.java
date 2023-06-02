@@ -2,7 +2,12 @@ package br.com.gabrielgmusskopf.unisinos.dominio.pedido;
 
 class PedidoProcessandoPagamento extends EstadoPedido {
 
-    protected PedidoProcessandoPagamento(Pedido pedido) {
+	@Override
+	public int getOrdem() {
+		return 2;
+	}
+
+	protected PedidoProcessandoPagamento(Pedido pedido) {
         super(pedido);
     }
 
@@ -15,7 +20,7 @@ class PedidoProcessandoPagamento extends EstadoPedido {
     }
 
     public String toString() {
-        return "Processando pagamento";
+        return "PROCESSANDO_PAGAMENTO";
     }
 
 }

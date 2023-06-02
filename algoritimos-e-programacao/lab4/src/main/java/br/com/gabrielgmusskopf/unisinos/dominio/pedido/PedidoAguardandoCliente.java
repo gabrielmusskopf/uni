@@ -2,7 +2,12 @@ package br.com.gabrielgmusskopf.unisinos.dominio.pedido;
 
 class PedidoAguardandoCliente extends EstadoPedido {
 
-    protected PedidoAguardandoCliente(Pedido pedido) {
+	@Override
+	public int getOrdem() {
+		return 6;
+	}
+
+	protected PedidoAguardandoCliente(Pedido pedido) {
         super(pedido);
     }
 
@@ -11,7 +16,7 @@ class PedidoAguardandoCliente extends EstadoPedido {
     }
 
     public String toString() {
-        return "Aguardando cliente";
+        return "AGUARDANDO_CLIENTE";
     }
 
 }

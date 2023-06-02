@@ -2,7 +2,12 @@ package br.com.gabrielgmusskopf.unisinos.dominio.pedido;
 
 class PedidoAprovado extends EstadoPedido {
 
-    protected PedidoAprovado(Pedido pedido) {
+	@Override
+	public int getOrdem() {
+		return 3;
+	}
+
+	protected PedidoAprovado(Pedido pedido) {
         super(pedido);
     }
 
@@ -12,7 +17,7 @@ class PedidoAprovado extends EstadoPedido {
     }
 
     public String toString() {
-        return "Aprovado";
+        return "APROVADO";
     }
 
 }

@@ -1,37 +1,66 @@
 package br.com.gabrielgmusskopf.unisinos.dominio;
 
 import br.com.gabrielgmusskopf.unisinos.dominio.pedido.Pedido;
+import br.com.gabrielgmusskopf.unisinos.infra.Log;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-public class PedidoProcessador implements Serializable {
+public class PedidoProcessador {
 
-    private static final long serialVersionUID = -7129758875938659761L;
+	private static final List<Thread> processos = new ArrayList<>();
 
-    public void processar(Pedido pedido) {
-        //TODO: Adicionar log quando flag debug ativa
-        new Thread(() -> {
-            delay(5000);
+	public void processar(Pedido pedido) {
+        var t = new Thread(() -> {
+			Log.info("Processando o pedido " + pedido.getId());
+			if (pedido.getEstado().getOrdem() == 1) {
+				informar(pedido.getId() + " - " + pedido.getEstado());
+				delay(1000);
+			}
 
-            pedido.processarPagamento();
-            delay(5000);
+			if (pedido.getEstado().getOrdem() < 2) {
+				pedido.processarPagamento();
+				informar(pedido.getId() + " - " + pedido.getEstado());
+				delay(5000);
+			}
 
-            pedido.aprovar();
-            delay(5000);
+			if (pedido.getEstado().getOrdem() < 3) {
+				pedido.aprovar();
+				informar(pedido.getId() + " - " + pedido.getEstado());
+				delay(5000);
+			}
 
-            pedido.preparar();
-            delay(5000);
+			if (pedido.getEstado().getOrdem() < 4) {
+				pedido.preparar();
+				informar(pedido.getId() + " - " + pedido.getEstado());
+				delay(5000);
+			}
 
-            pedido.aguardandoCliente();
-        }).start();
+			if (pedido.getEstado().getOrdem() < 5) {
+				pedido.aguardandoCliente();
+				informar(pedido.getId() + " - " + pedido.getEstado());
+			}
+			Log.info("Pedido processado com sucesso " + pedido.getId());
+        }, "PROCESSO-PEDIDO-" + pedido.getId());
+
+		processos.add(t);
+		t.start();
     }
 
-    private static void delay(long ms) {
+	private void informar(Object o) {
+		Log.debug(" PEDIDO PROCESSADOR: " + o);
+	}
+
+	private static void delay(long ms) {
         try {
             Thread.sleep(ms);
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+          	Log.debug("Processamento de pedido interrompido");
         }
     }
+
+	public static void pararProcessos() {
+		processos.forEach(Thread::interrupt);
+	}
 
 }

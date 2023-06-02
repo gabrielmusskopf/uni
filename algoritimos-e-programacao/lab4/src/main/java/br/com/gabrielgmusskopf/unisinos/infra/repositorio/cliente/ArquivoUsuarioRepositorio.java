@@ -1,24 +1,31 @@
 package br.com.gabrielgmusskopf.unisinos.infra.repositorio.cliente;
 
 import br.com.gabrielgmusskopf.unisinos.dominio.Usuario;
-import br.com.gabrielgmusskopf.unisinos.infra.repositorio.RepositorioArquivos;
+import br.com.gabrielgmusskopf.unisinos.infra.Log;
+import br.com.gabrielgmusskopf.unisinos.infra.repositorio.RepositorioCSV;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ArquivoUsuarioRepositorio extends RepositorioArquivos<Usuario> implements UsuarioRepositorio {
+public class ArquivoUsuarioRepositorio extends RepositorioCSV<Usuario> implements UsuarioRepositorio {
 
     private final List<Usuario> usuarios;
 
     public ArquivoUsuarioRepositorio() {
         usuarios = new ArrayList<>();
-        carregar(usuarios);
-        escreverAoFinal("id,nome");
+        inicializar();
+        Log.debug("Repositorio CSV de usuário criado");
+    }
+
+    @Override
+    protected String cabecalho() {
+        return "id,nome";
     }
 
     @Override
     public Usuario salvar(Usuario usuario) {
+        buscarPorId(usuario.getId()).ifPresent(this::remover);
         usuarios.add(usuario);
         return usuario;
     }
@@ -32,7 +39,9 @@ public class ArquivoUsuarioRepositorio extends RepositorioArquivos<Usuario> impl
 
     @Override
     public Optional<Usuario> buscarPorId(String s) {
-        return Optional.empty();
+        return usuarios.stream()
+                .filter(u -> u.getId().equals(s))
+                .findFirst();
     }
 
     @Override

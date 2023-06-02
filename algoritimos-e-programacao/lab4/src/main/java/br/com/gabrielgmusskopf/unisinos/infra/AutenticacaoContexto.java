@@ -6,6 +6,8 @@ public class AutenticacaoContexto {
 
     private static Usuario autenticado;
 
+    private AutenticacaoContexto() {}
+
     public static void autenticar(Usuario usuario) {
         autenticado = usuario;
     }

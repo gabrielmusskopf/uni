@@ -9,6 +9,21 @@ public abstract class EstadoPedido implements Serializable {
     private static final long serialVersionUID = -327681301896308662L;
     protected Pedido pedido;
 
+	public abstract int getOrdem();
+
+    public static EstadoPedido recuperar(Pedido p, String estado) {
+        return switch (estado) {
+            case "CRIADO" -> new PedidoCriado(p);
+            case "PROCESSANDO_PAGAMENTO" -> new PedidoProcessandoPagamento(p);
+            case "APROVADO" -> new PedidoAprovado(p);
+            case "PREPARANDO" -> new PedidoPreparando(p);
+            case "AGUARDANDO_CLIENTE" -> new PedidoAguardandoCliente(p);
+            case "FINALIZADO" -> new PedidoFinalizado(p);
+            case "CANCELADO" -> new PedidoCancelado(p);
+            default -> throw new EstadoPedidoInvalidoException(String.format("Estado '%s' inálido", estado));
+        };
+    }
+
     protected EstadoPedido(Pedido pedido) {
         this.pedido = pedido;
     }

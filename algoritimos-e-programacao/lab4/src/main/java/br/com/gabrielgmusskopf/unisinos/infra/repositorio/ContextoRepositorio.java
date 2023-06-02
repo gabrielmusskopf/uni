@@ -1,5 +1,6 @@
 package br.com.gabrielgmusskopf.unisinos.infra.repositorio;
 
+import br.com.gabrielgmusskopf.unisinos.infra.Log;
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.cliente.ArquivoUsuarioRepositorio;
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.cliente.MemoriaUsuarioRepositorio;
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.cliente.UsuarioRepositorio;
@@ -22,7 +23,7 @@ import java.util.Map;
 
 public class ContextoRepositorio {
 
-    private static List<Thread> armazenamentoThreads = new ArrayList<>();
+    private static final List<Thread> armazenamentoThreads = new ArrayList<>();
     private static TipoArmazenamento tipoArmazenamento;
     private static final Map<Class<?>, Repositorio<?,?>> cache = new HashMap<>();
 
@@ -31,52 +32,57 @@ public class ContextoRepositorio {
         usuarioRepositorio();
         produtoRepositorio();
         estoqueRepositorio();
-        restauranteRepositorio();
         pedidoRepositorio();
+        restauranteRepositorio();
     }
 
     public static UsuarioRepositorio usuarioRepositorio(){
         return switch (tipoArmazenamento) {
-            case ARQUIVO -> (UsuarioRepositorio) singleton(new ArquivoUsuarioRepositorio());
-            case MEMORIA -> (UsuarioRepositorio) singleton(new MemoriaUsuarioRepositorio());
+            case ARQUIVO -> (UsuarioRepositorio) singleton(ArquivoUsuarioRepositorio.class);
+            case MEMORIA -> (UsuarioRepositorio) singleton(MemoriaUsuarioRepositorio.class);
         };
     }
 
     public static RestauranteRepositorio restauranteRepositorio(){
         return switch (tipoArmazenamento) {
-            case ARQUIVO -> (RestauranteRepositorio) singleton(new ArquivoRestauranteRepositorio());
-            case MEMORIA -> (RestauranteRepositorio) singleton(new MemoriaRestauranteRepositorio());
+            case ARQUIVO -> (RestauranteRepositorio) singleton(ArquivoRestauranteRepositorio.class);
+            case MEMORIA -> (RestauranteRepositorio) singleton(MemoriaRestauranteRepositorio.class);
         };
     }
 
     public static PedidoRepositorio pedidoRepositorio(){
         return switch (tipoArmazenamento) {
-            case ARQUIVO -> (PedidoRepositorio) singleton(new ArquivoPedidoRepositorio());
-            case MEMORIA ->  (PedidoRepositorio) singleton(new MemoriaPedidoRepositorio());
+            case ARQUIVO -> (PedidoRepositorio) singleton(ArquivoPedidoRepositorio.class);
+            case MEMORIA ->  (PedidoRepositorio) singleton(MemoriaPedidoRepositorio.class);
         };
     }
 
     public static ProdutoRepositorio produtoRepositorio(){
         return switch (tipoArmazenamento) {
-            case ARQUIVO -> (ProdutoRepositorio) singleton(new ArquivoProdutoRepositorio());
-            case MEMORIA -> (ProdutoRepositorio) singleton(new MemoriaProdutoRepositorio());
+            case ARQUIVO -> (ProdutoRepositorio) singleton(ArquivoProdutoRepositorio.class);
+            case MEMORIA -> (ProdutoRepositorio) singleton(MemoriaProdutoRepositorio.class);
         };
     }
 
     public static EstoqueRepositorio estoqueRepositorio(){
         return switch (tipoArmazenamento) {
-            case ARQUIVO -> (EstoqueRepositorio) singleton(new ArquivoEstoqueRepositorio());
+            case ARQUIVO -> (EstoqueRepositorio) singleton(ArquivoEstoqueRepositorio.class);
             case MEMORIA -> throw new ArmazenamentoNaoSuportadoException();
         };
     }
 
-    private static Repositorio<?,?> singleton(Repositorio<?,?> repositorio) {
-        var r = cache.get(repositorio.getClass());
+    private static Repositorio<?,?> singleton(Class<?> repositorio) {
+        var r = cache.get(repositorio);
         if (r != null) {
             return r;
         }
-        cache.put(repositorio.getClass(), repositorio);
-        return repositorio;
+        try {
+            var repoInstancia = (Repositorio<?, ?>) repositorio.getDeclaredConstructor().newInstance();
+            cache.put(repositorio, repoInstancia);
+            return repoInstancia;
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void adicionarThread(Thread thread) {
@@ -85,7 +91,10 @@ public class ContextoRepositorio {
     }
 
     public static void armazenar() {
-        armazenamentoThreads.forEach(Thread::run);
+        armazenamentoThreads.forEach(t -> {
+            Log.debug("Armazenando dados em " + t.getName());
+            t.start();
+        });
     }
 
 }

@@ -2,7 +2,12 @@ package br.com.gabrielgmusskopf.unisinos.dominio.pedido;
 
 class PedidoCriado extends EstadoPedido {
 
-    protected PedidoCriado(Pedido pedido) {
+	@Override
+	public int getOrdem() {
+		return 1;
+	}
+
+	protected PedidoCriado(Pedido pedido) {
         super(pedido);
     }
 
@@ -15,7 +20,7 @@ class PedidoCriado extends EstadoPedido {
     }
 
     public String toString() {
-        return "Criado";
+        return "CRIADO";
     }
 
 }

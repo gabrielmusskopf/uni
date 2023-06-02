@@ -1,8 +1,10 @@
 package br.com.gabrielgmusskopf.unisinos.infra.cli.restaurante;
 
 import br.com.gabrielgmusskopf.unisinos.NovoProdutoComando;
+import br.com.gabrielgmusskopf.unisinos.comando.AbastecerEstoqueComando;
 import br.com.gabrielgmusskopf.unisinos.comando.NovoPedidoComando;
 import br.com.gabrielgmusskopf.unisinos.comando.RetirarPedidoComando;
+import br.com.gabrielgmusskopf.unisinos.dominio.PedidoProcessador;
 import br.com.gabrielgmusskopf.unisinos.dominio.Produto;
 import br.com.gabrielgmusskopf.unisinos.dominio.Restaurante;
 import br.com.gabrielgmusskopf.unisinos.dominio.execao.RestauranteException;
@@ -76,9 +78,12 @@ public class RestauranteConsole extends ConsoleAbstrato {
         var produtosEscolhidos = selecionarOpcoes(opcoes);
 
         try {
-            new NovoPedidoComando(ContextoRepositorio.pedidoRepositorio())
-                    .criar(AutenticacaoContexto.getAutenticado(), restaurante, produtosEscolhidos);
-            System.out.print("\nPedido criado!\n");
+			new NovoPedidoComando(
+					ContextoRepositorio.pedidoRepositorio(),
+					ContextoRepositorio.restauranteRepositorio(),
+					new PedidoProcessador())
+					.criar(AutenticacaoContexto.getAutenticado(), restaurante, produtosEscolhidos);
+			System.out.print("\nPedido criado!\n");
         }catch (RestauranteException re) {
             System.out.printf("%n%s%n", re.getMessage());
         }
@@ -102,15 +107,16 @@ public class RestauranteConsole extends ConsoleAbstrato {
 
     private void retirarPedido() {
         try {
-            new RetirarPedidoComando().retirar(restaurante);
-            System.out.println("Pedido retirado!");
+            new RetirarPedidoComando(ContextoRepositorio.restauranteRepositorio(), ContextoRepositorio.pedidoRepositorio())
+					.retirar(restaurante);
+            System.out.println("\nPedido retirado!");
         } catch (RestauranteException re) {
             System.out.printf("%n%s%n", re.getMessage());
         }
     }
 
     private void adicionarProdutos() {
-        System.out.print("Nome do produto: ");
+        System.out.print("\nNome do produto: ");
         var n = scanner.next();
 
         System.out.print("Preço: R$");
@@ -119,8 +125,6 @@ public class RestauranteConsole extends ConsoleAbstrato {
         System.out.print("Ingredientes (separados por espaço): ");
         var ingredientes = Arrays.stream(scanner.next().trim().split(" "))
                 .toList();
-
-        //Confirmação
 
         new NovoProdutoComando(ContextoRepositorio.restauranteRepositorio(), ContextoRepositorio.produtoRepositorio())
                 .adicionar(restaurante, new Produto(n, preco, ingredientes));
@@ -143,7 +147,8 @@ public class RestauranteConsole extends ConsoleAbstrato {
         // mudar para "Item quantidade" por linha
         System.out.println("\nDigite os ingredientes para inserir ao estoque, separados por espaço:");
         var ingredientes = scanner.next().trim().split(" ");
-        restaurante.getEstoque().abastecer(ingredientes);
+        new AbastecerEstoqueComando(ContextoRepositorio.estoqueRepositorio())
+                .abastecer(restaurante.getEstoque(), ingredientes);
     }
 
 }

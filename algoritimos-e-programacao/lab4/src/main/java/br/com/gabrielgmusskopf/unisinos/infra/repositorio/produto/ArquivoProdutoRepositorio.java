@@ -1,21 +1,26 @@
 package br.com.gabrielgmusskopf.unisinos.infra.repositorio.produto;
 
 import br.com.gabrielgmusskopf.unisinos.dominio.Produto;
-import br.com.gabrielgmusskopf.unisinos.infra.repositorio.RepositorioArquivos;
+import br.com.gabrielgmusskopf.unisinos.infra.Log;
+import br.com.gabrielgmusskopf.unisinos.infra.repositorio.RepositorioCSV;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class ArquivoProdutoRepositorio extends RepositorioArquivos<Produto> implements ProdutoRepositorio {
+public class ArquivoProdutoRepositorio extends RepositorioCSV<Produto> implements ProdutoRepositorio {
 
     private final List<Produto> produtos;
 
     public ArquivoProdutoRepositorio() {
+        super();
         produtos = new ArrayList<>();
-        carregar(produtos);
-        escreverAoFinal("id,nome,valor,ingredientes");
+        Log.debug("Repositório CSV de produto criado");
+    }
+
+    @Override
+    protected String cabecalho() {
+        return "id,nome,valor,ingredientes";
     }
 
     @Override
@@ -25,6 +30,9 @@ public class ArquivoProdutoRepositorio extends RepositorioArquivos<Produto> impl
 
     @Override
     public Produto salvar(Produto produto) {
+        buscarPorId(produto.getId())
+                .ifPresent(this::remover);
+
         produtos.add(produto);
         return produto;
     }
@@ -38,7 +46,9 @@ public class ArquivoProdutoRepositorio extends RepositorioArquivos<Produto> impl
 
     @Override
     public Optional<Produto> buscarPorId(String s) {
-        return Optional.empty();
+        return produtos.stream()
+                .filter(p -> p.getId().equals(s))
+                .findFirst();
     }
 
     @Override
@@ -53,7 +63,7 @@ public class ArquivoProdutoRepositorio extends RepositorioArquivos<Produto> impl
 
     @Override
     protected void recuperarElemento(String[] valores) {
-        var ingredientes = stringToList(valores, 3);
+        var ingredientes = lerList(valores[3]);
         produtos.add(Produto.recuperar(valores[0], valores[1], Double.parseDouble(valores[2]), ingredientes));
     }
 

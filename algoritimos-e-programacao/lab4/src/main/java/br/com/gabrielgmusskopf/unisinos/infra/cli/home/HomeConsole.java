@@ -50,7 +50,7 @@ public class HomeConsole extends ConsoleAbstrato {
     private void exibirRestaurantes() {
         var restaurantes = new BuscarRestaurantesComando(ContextoRepositorio.restauranteRepositorio()).buscar();
         if (restaurantes.isEmpty()) {
-            System.out.println("Sem restaurantes...");
+            System.out.println("\nSem restaurantes...");
             return;
         }
 
@@ -78,7 +78,6 @@ public class HomeConsole extends ConsoleAbstrato {
                     .map(nome -> String.format("- %s\n", nome))
                     .collect(Collectors.joining());
 
-            //System.out.printf("[%s] %s - R$%.2f\n%s\n", p.getEstado(), p.getRestaurante().getNome(), p.getCusto(), itens);
             System.out.printf("[%s] - R$%.2f\n%s\n", p.getEstado(), p.getCusto(), itens);
         });
     }

@@ -4,9 +4,13 @@ import br.com.gabrielgmusskopf.unisinos.comando.BuscarUsuarioComando;
 import br.com.gabrielgmusskopf.unisinos.comando.CadastrarUsuarioComando;
 import br.com.gabrielgmusskopf.unisinos.dominio.execao.UsuarioException;
 import br.com.gabrielgmusskopf.unisinos.infra.AutenticacaoContexto;
+import br.com.gabrielgmusskopf.unisinos.infra.Contexto;
 import br.com.gabrielgmusskopf.unisinos.infra.cli.ConsoleAbstrato;
 import br.com.gabrielgmusskopf.unisinos.infra.cli.ConsoleManager;
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.ContextoRepositorio;
+import io.leego.banana.Ansi;
+import io.leego.banana.BananaUtils;
+import io.leego.banana.Font;
 
 public class AutenticacaoConsole extends ConsoleAbstrato {
 
@@ -16,7 +20,7 @@ public class AutenticacaoConsole extends ConsoleAbstrato {
 
     @Override
     public void exibir() {
-        System.out.println("=== Unisinos KDS ===");
+        System.out.println(BananaUtils.bananansi("Unisinos KDS", Font.LARRY_3D, Ansi.BOLD, Ansi.PURPLE));
         var opcoes = exibirOpcoes(AuthComandoCli.values());
 
         var opcao = opcoes.get(buscarInteiro());
@@ -28,12 +32,13 @@ public class AutenticacaoConsole extends ConsoleAbstrato {
         switch (opcao) {
             case ENTRAR -> entrar();
             case CADASTRAR -> cadastrar();
+			case SAIR -> Contexto.finalizar();
         }
 
     }
 
     private void entrar() {
-        System.out.print("Nome: ");
+        System.out.print("\nNome: ");
         var nome = scanner.next();
 
         var usuario = new BuscarUsuarioComando(ContextoRepositorio.usuarioRepositorio()).buscar(nome);

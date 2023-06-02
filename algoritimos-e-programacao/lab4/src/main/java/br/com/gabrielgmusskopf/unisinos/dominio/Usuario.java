@@ -1,11 +1,8 @@
 package br.com.gabrielgmusskopf.unisinos.dominio;
 
-import java.io.Serializable;
 import java.util.UUID;
 
-// Adicionar listener para o pedido. Ser notificado quando alterar o estado
-
-public class Usuario implements Dominio, Serializable {
+public class Usuario implements Dominio {
 
     private static final long serialVersionUID = 6008152717531275174L;
     private final UUID id;
