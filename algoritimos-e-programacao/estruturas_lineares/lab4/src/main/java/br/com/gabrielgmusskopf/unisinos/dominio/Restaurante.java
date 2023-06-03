@@ -67,7 +67,7 @@ public class Restaurante implements Dominio {
     public Pedido retirarPedido() {
         var proximo = pedidos.peek();
         if (proximo == null || !proximo.isAguardandoCliente()){
-            throw new RestauranteException("Nenhum pronto para retirada");
+            throw new RestauranteException("Nenhum pedido pronto para retirada");
         }
         var p = pedidos.poll();
         if (p == null) {

@@ -12,8 +12,6 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <debugFlag/>
     </properties>
 
     <dependencies>
@@ -21,6 +19,24 @@
             <groupId>io.leego</groupId>
             <artifactId>banana</artifactId>
             <version>2.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.9.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>5.3.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>5.3.1</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -32,9 +48,6 @@
                 <version>3.0.0</version>
                 <configuration>
                     <mainClass>br.com.gabrielgmusskopf.unisinos.Main</mainClass>
-                    <arguguments>
-                        <argument>{debugFlag}</argument>
-                    </arguguments>
                 </configuration>
             </plugin>
             <plugin>
@@ -48,14 +61,5 @@
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>debug</id>
-            <properties>
-                <debugFlag>--debug</debugFlag>
-            </properties>
-        </profile>
-    </profiles>
 
 </project>

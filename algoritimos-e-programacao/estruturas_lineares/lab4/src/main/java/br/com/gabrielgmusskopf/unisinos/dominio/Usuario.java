@@ -4,7 +4,6 @@ import java.util.UUID;
 
 public class Usuario implements Dominio {
 
-    private static final long serialVersionUID = 6008152717531275174L;
     private final UUID id;
     private final String nome;
 

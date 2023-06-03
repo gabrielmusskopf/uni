@@ -12,7 +12,7 @@ public class PedidoProcessador {
 
 	public void processar(Pedido pedido) {
         var t = new Thread(() -> {
-			Log.info("Processando o pedido " + pedido.getId());
+			Log.debug("Processando o pedido " + pedido.getId());
 			if (pedido.getEstado().getOrdem() == 1) {
 				informar(pedido.getId() + " - " + pedido.getEstado());
 				delay(1000);
@@ -40,7 +40,7 @@ public class PedidoProcessador {
 				pedido.aguardandoCliente();
 				informar(pedido.getId() + " - " + pedido.getEstado());
 			}
-			Log.info("Pedido processado com sucesso " + pedido.getId());
+			Log.debug("Pedido processado com sucesso " + pedido.getId());
         }, "PROCESSO-PEDIDO-" + pedido.getId());
 
 		processos.add(t);
