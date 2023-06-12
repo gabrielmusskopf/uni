@@ -31,7 +31,7 @@ private fun lerInt(): Int {
 }
 
 private fun exibirDados(candidatos: ArrayList<Candidato>) {
-    println("Mais jovem: " + candidatos.minBy { c -> c.idade })
+    println("Mais jovem: " + candidatos.minBy { it.idade })
     println("Mais velho: " + candidatos.maxBy { c -> c.idade })
     println("Mais votado: " + candidatos.maxBy { c -> c.votos })
     println("Menos votado: " + candidatos.minBy { c -> c.votos })
