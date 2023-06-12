@@ -19,7 +19,7 @@ public abstract class RepositorioCSV<T> {
 
     protected void inicializar() {
         carregar();
-        escreverAoFinal(cabecalho());
+        escreverAoFinal();
     }
 
     protected abstract String cabecalho();
@@ -56,10 +56,10 @@ public abstract class RepositorioCSV<T> {
 
     protected abstract void recuperarElemento(String[] valores);
 
-    protected void escreverAoFinal(String cabecalho) {
+    protected void escreverAoFinal() {
         ContextoRepositorio.adicionarThread(new Thread(() -> {
             try (FileWriter writer = new FileWriter(RESOURCES + caminhoData())) {
-                writer.write(cabecalho);
+                writer.write(cabecalho());
                 writer.write(System.lineSeparator());
                 for (T t: buscarTodos()) {
                     writer.write(formatarDados(t));

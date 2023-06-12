@@ -29,4 +29,6 @@ public class Contexto {
         executando.set(false);
     }
 
+    private Contexto(){}
+
 }

@@ -71,7 +71,7 @@ public class HomeConsole extends ConsoleAbstrato {
             return;
         }
 
-        System.out.println("\tPedidos\t");
+        System.out.println("\n\tPedidos\t");
         pedidos.forEach(p -> {
             var itens = p.getProdutos().stream()
                     .map(Produto::getNome)

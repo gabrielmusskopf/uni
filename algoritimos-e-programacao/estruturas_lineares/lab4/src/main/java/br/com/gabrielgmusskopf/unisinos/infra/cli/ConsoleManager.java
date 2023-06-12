@@ -10,7 +10,7 @@ import java.util.Stack;
 
 public class ConsoleManager implements App {
 
-    private Stack<Console> historicoConsole;
+    private final Stack<Console> historicoConsole;
     private Console atual;
     private final Console autenticacacao;
     private final Console principal;
@@ -20,15 +20,6 @@ public class ConsoleManager implements App {
         this.principal = new HomeConsole(this);
         this.historicoConsole = new Stack<>();
     }
-
-    /*
-                                  ___________
-                                 |           |
-    AUTENTICACAO -> MENU -> RESTAURANTE -> PERFIL
-                      ^          |           |
-                      |          |           |
-                      ------------ <---------
-     */
 
     @Override
     public void disponibilizar() {

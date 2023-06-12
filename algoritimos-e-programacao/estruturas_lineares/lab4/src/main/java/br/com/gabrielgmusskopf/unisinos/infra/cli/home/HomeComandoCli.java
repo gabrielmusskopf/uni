@@ -2,7 +2,7 @@ package br.com.gabrielgmusskopf.unisinos.infra.cli.home;
 
 import br.com.gabrielgmusskopf.unisinos.infra.cli.ComandoCli;
 
-public enum HomeComandoCli implements ComandoCli {
+enum HomeComandoCli implements ComandoCli {
 
     NOVO_RESTAURANTE(1, "Novo restaurante"),
     ESCOLHER_RESTAURANTE(2, "Escolher restaurante"),

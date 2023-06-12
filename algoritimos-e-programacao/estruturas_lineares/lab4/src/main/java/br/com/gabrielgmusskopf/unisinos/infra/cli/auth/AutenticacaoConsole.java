@@ -55,7 +55,7 @@ public class AutenticacaoConsole extends ConsoleAbstrato {
 
     private void cadastrar() {
         try {
-            System.out.print("Nome: ");
+            System.out.print("\nNome: ");
             var n = scanner.next();
             var u = new CadastrarUsuarioComando(ContextoRepositorio.usuarioRepositorio())
                     .cadastrar(n);

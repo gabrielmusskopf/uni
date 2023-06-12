@@ -2,7 +2,7 @@ package br.com.gabrielgmusskopf.unisinos.infra.cli.auth;
 
 import br.com.gabrielgmusskopf.unisinos.infra.cli.ComandoCli;
 
-public enum AuthComandoCli implements ComandoCli {
+enum AuthComandoCli implements ComandoCli {
 
     CADASTRAR(1, "Cadastrar"),
     ENTRAR(2, "Entrar"),

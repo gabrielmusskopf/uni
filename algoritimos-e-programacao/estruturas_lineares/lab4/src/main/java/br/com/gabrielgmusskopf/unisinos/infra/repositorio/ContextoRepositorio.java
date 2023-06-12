@@ -6,6 +6,7 @@ import br.com.gabrielgmusskopf.unisinos.infra.repositorio.cliente.MemoriaUsuario
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.cliente.UsuarioRepositorio;
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.estoque.ArquivoEstoqueRepositorio;
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.estoque.EstoqueRepositorio;
+import br.com.gabrielgmusskopf.unisinos.infra.repositorio.estoque.MemoriaEstoqueRepositorio;
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.pedido.ArquivoPedidoRepositorio;
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.pedido.MemoriaPedidoRepositorio;
 import br.com.gabrielgmusskopf.unisinos.infra.repositorio.pedido.PedidoRepositorio;
@@ -67,7 +68,7 @@ public class ContextoRepositorio {
     public static EstoqueRepositorio estoqueRepositorio(){
         return switch (tipoArmazenamento) {
             case ARQUIVO -> (EstoqueRepositorio) singleton(ArquivoEstoqueRepositorio.class);
-            case MEMORIA -> throw new ArmazenamentoNaoSuportadoException();
+            case MEMORIA -> (EstoqueRepositorio) singleton(MemoriaEstoqueRepositorio.class);
         };
     }
 
@@ -96,5 +97,7 @@ public class ContextoRepositorio {
             t.start();
         });
     }
+
+    private ContextoRepositorio(){}
 
 }

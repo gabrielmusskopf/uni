@@ -10,11 +10,18 @@ import br.com.gabrielgmusskopf.unisinos.infra.repositorio.TipoArmazenamento;
 public class Main {
 
     public static void main(String[] args) {
-		for (String arg : args) {
-            if ("-d".equals(arg) || "--debug".equals(arg)) Log.setLevel(LogLevel.DEBUG);
-		}
+        TipoArmazenamento tipoArmazenamento = TipoArmazenamento.ARQUIVO;
 
-        ContextoRepositorio.bootstrap(TipoArmazenamento.ARQUIVO);
+        for (String s : args) {
+            var arg = s.split(" ");
+            if ("-d".equals(arg[0]) || "--debug".equals(arg[0])) Log.setLevel(LogLevel.DEBUG);
+            if ("-a".equals(arg[0]) || "--armazenamento".equals(arg[0])) tipoArmazenamento = "arquivo".equalsIgnoreCase(arg[1])
+                    ? TipoArmazenamento.ARQUIVO
+                    : TipoArmazenamento.MEMORIA;
+        }
+
+        Log.debug("Tipo armazenamento: " + tipoArmazenamento);
+        ContextoRepositorio.bootstrap(tipoArmazenamento);
         Contexto.iniciar(ConsoleFactory.novo());
     }
 

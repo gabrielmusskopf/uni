@@ -10,4 +10,6 @@ public class ConsoleFactory {
         return manager;
     }
 
+    private ConsoleFactory(){}
+
 }

@@ -49,8 +49,6 @@ public class RestauranteConsole extends ConsoleAbstrato {
            case VER_ESTOQUE -> verEstoque();
            case ABASTECER_ESTOQUE -> abastecerEstoque();
            case VOLTAR -> consoleManager.voltar();
-           default -> {
-           }
        }
    }
 
@@ -123,8 +121,7 @@ public class RestauranteConsole extends ConsoleAbstrato {
         var preco = Double.parseDouble(scanner.next());
 
         System.out.print("Ingredientes (separados por espaço): ");
-        var ingredientes = Arrays.stream(scanner.next().trim().split(" "))
-                .toList();
+        var ingredientes = Arrays.stream(scanner.next().trim().split(" ")).toList();
 
         new NovoProdutoComando(ContextoRepositorio.restauranteRepositorio(), ContextoRepositorio.produtoRepositorio())
                 .adicionar(restaurante, new Produto(n, preco, ingredientes));

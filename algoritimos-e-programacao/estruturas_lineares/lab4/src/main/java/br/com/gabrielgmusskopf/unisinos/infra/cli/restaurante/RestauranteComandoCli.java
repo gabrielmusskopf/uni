@@ -4,7 +4,7 @@ import br.com.gabrielgmusskopf.unisinos.infra.cli.ComandoCli;
 
 import java.util.Arrays;
 
-public enum RestauranteComandoCli implements ComandoCli {
+enum RestauranteComandoCli implements ComandoCli {
 
     VER_PRODUTOS(1, "Produtos"),
     NOVO_PEDIDO(2, "Novo pedido"),

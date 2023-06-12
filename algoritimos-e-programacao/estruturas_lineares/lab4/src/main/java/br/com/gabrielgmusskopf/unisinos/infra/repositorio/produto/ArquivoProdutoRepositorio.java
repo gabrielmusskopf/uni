@@ -13,8 +13,8 @@ public class ArquivoProdutoRepositorio extends RepositorioCSV<Produto> implement
     private final List<Produto> produtos;
 
     public ArquivoProdutoRepositorio() {
-        super();
         produtos = new ArrayList<>();
+        inicializar();
         Log.debug("Repositório CSV de produto criado");
     }
 
