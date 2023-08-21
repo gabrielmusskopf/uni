@@ -2,7 +2,6 @@
 **Matéria:** Cálculo diferencial
 **Assunto:** Introdução a funções
 **Tags:** #calculo #funcao
-[[Oi]]
 #### Definição de uma função:
 
 $$

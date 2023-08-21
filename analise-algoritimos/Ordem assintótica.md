@@ -1,7 +1,7 @@
 **Dia:** 15/08/2023 
 **Matéria:** Análise de algorítimos
 **Assunto:**  Ordem assintótica
-**Tags:** #algoritimos
+**Tags:** #algoritimos #faculdade 
 **Material :** [[complexidade_de_algoritmos_crescimento_de_funcoes_ordens_assintoticas.pdf]]
 
 ## Constantes de crescimento
