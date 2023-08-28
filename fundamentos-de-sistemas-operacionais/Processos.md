@@ -108,3 +108,28 @@ Tipos de interrupção:
 
 Identificadas por um número: Vetor de interrupção
 # Modos de operação
+
+
+**Dia:** 23/08/2023 
+**Matéria:** Fundamentos de sistemas operacionais
+**Assunto:** 
+**Tags:** #faculdade #processos
+
+OS não responde em tempo real
+
+## Bloco Descritor de Processo (PCB)
+> Informações sobre o processo (informações do `/proc`)
+
+Estruturas de dados que ficam na memória, não é exatamente o /proc
+
+## Modelo de Processo
+
+Que linha deve continuar quando o processo ganhar processador de novo
+PC => "Em que linha de código está". Não exatamente linha de código, mas sim, instrução de máquina
+SP => 
+
+Cada processo tem um espaço de endereçamento
+
+Originalmente, só um fluxo de execução. Porém, foram criadas as threads (múltiplos fluxos)
+
+![[Pasted image 20230823201451.png]]o
