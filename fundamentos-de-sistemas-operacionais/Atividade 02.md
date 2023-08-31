@@ -116,4 +116,5 @@ III. Em relação aos sistemas de arquivos, uma função importante do sistema
 operacional é esconder as peculiaridades dos discos e outros dispositivos de entrada e saída e apresentar ao programador um modelo abstrato de arquivos.
 IV. Um processo suspenso consiste na imagem de núcleo e sua entrada na tabela de processos, que contém seus registradores, entre outros elementos. 
 
-R: É correto o que se afirma em: A) I, II, III, IV
+~~R: É correto o que se afirma em: A) I, II, III, IV~~
+R Correta: É correto o que se afirma em: C) I, III, IV
