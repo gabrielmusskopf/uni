@@ -228,14 +228,21 @@ $$
 ```java
 void insertionSort(int[] array) {
 	for (int i = 1; i < array.length; i++) {
-	int j = i;
-	int temp = array[j];
-	while (j > 0 && temp < array[j - 1]) {
-		array[j] = array[j - 1];
-		j--;
-	}
-	array[j] = temp;
+		int j = i;
+		int temp = array[j];
+		while (j > 0 && temp < array[j - 1]) {
+			array[j] = array[j - 1];
+			j--;
+		}
+		array[j] = temp;
 	}
 }
 ```
 
+![[insertion_sort_analise.jpeg]]
+
+
+**Dia:** 05/09/2023 
+**Matéria:** Análise de algoritmos
+**Assunto:** Somatório
+**Tags:** #faculdade #somatorio
