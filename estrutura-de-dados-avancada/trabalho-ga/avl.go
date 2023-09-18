@@ -1,9 +1,6 @@
 package main
 
-import (
-	"fmt"
-	"log"
-)
+import "fmt"
 
 func max(a, b int) int {
 	if a > b {
@@ -19,32 +16,11 @@ type TreeNode struct {
 	right *TreeNode
 }
 
-func Create(v int) *TreeNode {
+func create(v int) *TreeNode {
 	return &TreeNode{
 		value: v,
 		bf:    0,
 	}
-}
-
-type Queue struct {
-	values []*TreeNode
-}
-
-func (q *Queue) enqueue(v *TreeNode) {
-	q.values = append(q.values, v)
-}
-
-func (q *Queue) dequeue() *TreeNode {
-	if q.isEmpty() {
-		log.Fatal("nada para remover da fila!")
-	}
-	v := q.values[0]
-	q.values = q.values[1:]
-	return v
-}
-
-func (q *Queue) isEmpty() bool {
-	return len(q.values) == 0
 }
 
 func (n *TreeNode) depth() int {
@@ -147,16 +123,9 @@ func (n *TreeNode) rotateLeft() *TreeNode {
 	return x
 }
 
-func (n *TreeNode) add(v int) *TreeNode {
+func (n *TreeNode) balance() *TreeNode {
 	if n == nil {
-		return Create(v)
-	}
-	if v < n.value {
-		debug("%d é menor do que %d\n", v, n.value)
-		n.left = n.left.add(v)
-	} else if v > n.value {
-		debug("%d é maior do que %d\n", v, n.value)
-		n.right = n.right.add(v)
+		return n
 	}
 
 	n.bf = n.balanceFactor()
@@ -192,14 +161,45 @@ func (n *TreeNode) add(v int) *TreeNode {
 	return n
 }
 
-func (n *TreeNode) serach(v int) *TreeNode {
+func (n *TreeNode) addRec(v int, i *int) *TreeNode {
+	*i++
+	if n == nil {
+		return create(v)
+	}
+	if v < n.value {
+		debug("%d é menor do que %d\n", v, n.value)
+		n.left = n.left.addRec(v, i)
+	} else if v > n.value {
+		debug("%d é maior do que %d\n", v, n.value)
+		n.right = n.right.addRec(v, i)
+	}
+
+	return n.balance()
+}
+
+func (n *TreeNode) add(v int) *TreeNode {
+	i := 0
+	t := n.addRec(v, &i)
+	debug("%d interações para inserir %d\n", i, v)
+	return t
+}
+
+func (n *TreeNode) serachRec(v int, i *int) *TreeNode {
+	*i++
 	if n == nil || n.value == v {
 		return n
 	}
 	if v < n.value {
-		return n.left.serach(v)
+		return n.left.serachRec(v, i)
 	}
-	return n.right.serach(v)
+	return n.right.serachRec(v, i)
+}
+
+func (n *TreeNode) serach(v int) *TreeNode {
+	i := 0
+	t := n.serachRec(v, &i)
+	debug("%d interações para buscar %d\n", i, v)
+	return t
 }
 
 // FB(p) = h(sae(p)) - h(sad(p))
@@ -207,8 +207,74 @@ func (n *TreeNode) balanceFactor() int {
 	return n.left.depth() - n.right.depth()
 }
 
-func (n *TreeNode) remove(v int) bool {
-    //TODO: Implementar
-    return false
+func (n *TreeNode) min() *TreeNode {
+	current := n
+	for current.left != nil {
+		current = current.left
+	}
+	return current
 }
 
+func (n *TreeNode) removeRec(v int, i *int) *TreeNode {
+	*i++
+	if n == nil {
+		return n
+	}
+
+	if v < n.value {
+		n.left = n.left.removeRec(v, i)
+	} else if v > n.value {
+		n.right = n.right.removeRec(v, i)
+	} else {
+		// está no node para ser deletado
+		if n.left == nil || n.right == nil {
+			var temp *TreeNode
+			if n.left != nil {
+				temp = n.left
+			} else {
+				temp = n.right
+			}
+
+			if temp == nil {
+				// sem filho
+				n = nil
+			} else {
+				// um filho
+				*n = *temp
+			}
+		} else {
+			temp := n.right.min()
+			n.value = temp.value
+			n.right = n.right.removeRec(temp.value, i)
+		}
+	}
+
+	return n.balance()
+}
+
+func (n *TreeNode) remove(v int) *TreeNode {
+	i := 0
+	t := n.removeRec(v, &i)
+	debug("%d interações para remover %d\n", i, v)
+	return t
+}
+
+/*
+type CountIter struct {
+    i int
+    operation func(int, *int) *TreeNode
+}
+
+func (n *TreeNode) countIter(op func(int, *int) *TreeNode) *CountIter {
+    return &CountIter{
+        operation: op,
+    }
+}
+
+func (c *CountIter) exec(v int) *TreeNode {
+	i := 0
+    t := c.operation(v, &i)
+	debug("%d interações\n", i)
+    return t
+}
+*/

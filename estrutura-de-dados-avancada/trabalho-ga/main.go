@@ -4,29 +4,36 @@ import (
 	"fmt"
 )
 
+var tree *TreeNode
+
 const (
 	HABILITAR_DEBUG = 1
 	VER_ARVORE      = 2
 	INSERIR_VALOR   = 3
 	BUSCAR_VALOR    = 4
-	VER_POST_ORDER  = 5
-	VER_PRE_ORDER   = 6
-	VER_IN_ORDER    = 7
-	SAIR            = 8
+	REMOVER_VALOR   = 5
+	VER_POST_ORDER  = 6
+	VER_PRE_ORDER   = 7
+	VER_IN_ORDER    = 8
+	INICIAR_HTTP    = 9
+	SAIR            = 10
 )
 
 var opcoes map[int]string
 
 func init() {
-	opcoes = make(map[int]string)
-	opcoes[HABILITAR_DEBUG] = "Habiltar debug"
-	opcoes[VER_ARVORE] = "Ver árvore"
-	opcoes[INSERIR_VALOR] = "Inserir valor"
-	opcoes[VER_POST_ORDER] = "Ver post order"
-	opcoes[VER_IN_ORDER] = "Ver in order"
-	opcoes[VER_PRE_ORDER] = "Ver pre order"
-	opcoes[BUSCAR_VALOR] = "Buscar valor"
-	opcoes[SAIR] = "Sair"
+	opcoes = map[int]string{
+		SAIR:            "Sair",
+		HABILITAR_DEBUG: "Habiltar debug",
+		VER_ARVORE:      "Ver árvore",
+		INSERIR_VALOR:   "Inserir valor",
+		VER_POST_ORDER:  "Ver post order",
+		VER_IN_ORDER:    "Ver in order",
+		VER_PRE_ORDER:   "Ver pre order",
+		BUSCAR_VALOR:    "Buscar valor",
+		REMOVER_VALOR:   "Remover valor",
+		INICIAR_HTTP:    "Iniciar servidor HTTP",
+	}
 
 	logLevel = NONE
 }
@@ -53,53 +60,76 @@ func showMenu() {
 	fmt.Printf("\nOpção: ")
 }
 
+func askInt() int {
+	var n int
+	fmt.Printf("Digite o número: ")
+	fmt.Scanf("%d", &n)
+	return n
+}
+
+func doOr(n *TreeNode, fail, sucess string) {
+	if n != nil {
+		fmt.Print(sucess)
+	} else {
+		fmt.Print(fail)
+	}
+}
+
 func main() {
 	fmt.Printf("Árvore AVL\n")
 
-	var tree *TreeNode
 	opt := -1
 
 	for opt != SAIR {
 		showMenu()
 		fmt.Scanf("%d", &opt)
+
 		switch opt {
 		case HABILITAR_DEBUG:
 			toggleDebug()
+
 		case VER_ARVORE:
 			if tree == nil {
 				fmt.Printf("Árvore vazia\n")
 				continue
 			}
-			fmt.Println()
 			tree.prettyPrint("")
+
 		case INSERIR_VALOR:
-			var n int
-			fmt.Printf("Digite o número: ")
-			fmt.Scanf("%d", &n)
-			tree = tree.add(n)
-			fmt.Println("Ok!")
+			d := askInt()
+			tree = tree.add(d)
+			doOr(tree, "Não pôde adicionar", "Ok!")
+
 		case BUSCAR_VALOR:
-			var d int
-			fmt.Print("Digite o valor: ")
-			fmt.Scanf("%d", &d)
-			if r := tree.serach(d); r == nil {
-				fmt.Println("Não existe na árvore")
-			} else {
-				fmt.Println("Existe na árvore")
-			}
+			d := askInt()
+			doOr(tree.serach(d), "Não existe na árvore", "Existe na árvore")
+
+		case REMOVER_VALOR:
+			d := askInt()
+			tree = tree.remove(d)
+			fmt.Print("Ok!")
+
 		case VER_PRE_ORDER:
 			tree.preOrder()
-			fmt.Println()
+
 		case VER_IN_ORDER:
 			tree.inOrder()
-			fmt.Println()
+
 		case VER_POST_ORDER:
 			tree.postOrder()
-			fmt.Println()
-        case SAIR:
-            fmt.Println("Desligando os motores")
-        default:
-            fmt.Println("Não conheço essa...")
+
+		case INICIAR_HTTP:
+			go initHttp()
+			fmt.Printf("Servidor iniciado em http://127.0.0.1:3333")
+
+		case SAIR:
+			fmt.Print("Desligando os motores")
+
+		default:
+			fmt.Print("Não conheço essa...")
 		}
+		fmt.Println()
 	}
 }
+
+//Ideia: servidor HTTP para visualização da árvore
