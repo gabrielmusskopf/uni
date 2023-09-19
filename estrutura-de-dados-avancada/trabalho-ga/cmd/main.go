@@ -1,7 +1,11 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
+	"strconv"
+	"strings"
 
 	"github.com/gabrielmusskopf/avl"
 	"github.com/gabrielmusskopf/avl/http"
@@ -11,15 +15,18 @@ const (
 	HABILITAR_DEBUG = 1
 	VER_ARVORE      = 2
 	INSERIR_VALOR   = 3
-	BUSCAR_VALOR    = 4
-	REMOVER_VALOR   = 5
-	VER_POST_ORDER  = 6
-	VER_PRE_ORDER   = 7
-	VER_IN_ORDER    = 8
-	INICIAR_HTTP    = 9
-	SAIR            = 10
+	INSERIR_VALORES = 4
+	BUSCAR_VALOR    = 5
+	REMOVER_VALOR   = 6
+	VER_POST_ORDER  = 7
+	VER_PRE_ORDER   = 8
+	VER_IN_ORDER    = 9
+	VER_BFS         = 10
+	INICIAR_HTTP    = 11
+	SAIR            = 12
 )
 
+var indexDistance int
 var opcoes map[int]string
 
 func init() {
@@ -28,15 +35,28 @@ func init() {
 		HABILITAR_DEBUG: "Habiltar debug",
 		VER_ARVORE:      "Ver árvore",
 		INSERIR_VALOR:   "Inserir valor",
-		VER_POST_ORDER:  "Ver post order",
-		VER_IN_ORDER:    "Ver in order",
-		VER_PRE_ORDER:   "Ver pre order",
+		INSERIR_VALORES: "Inserir valores",
+		VER_POST_ORDER:  "DFS Post order",
+		VER_IN_ORDER:    "DFS In order",
+		VER_PRE_ORDER:   "DFS Pre order",
+		VER_BFS:         "BFS",
 		BUSCAR_VALOR:    "Buscar valor",
 		REMOVER_VALOR:   "Remover valor",
 		INICIAR_HTTP:    "Iniciar servidor HTTP",
 	}
 
 	avl.LogLevel = avl.NONE
+	indexDistance = 5
+}
+
+func printOption(opt int, s string) {
+	nsize := strconv.Itoa(opt)
+	ndots := indexDistance - len(nsize)
+	var dots string
+	for i := 0; i < ndots; i++ {
+		dots += "."
+	}
+	fmt.Printf("%d%s%s\n", opt, dots, s)
 }
 
 func showDebug() {
@@ -46,7 +66,8 @@ func showDebug() {
 	} else {
 		d = "Off"
 	}
-	fmt.Printf("%d: %s (%s)\n", HABILITAR_DEBUG, opcoes[HABILITAR_DEBUG], d)
+	s := fmt.Sprintf("%s (%s)", opcoes[HABILITAR_DEBUG], d)
+	printOption(HABILITAR_DEBUG, s)
 }
 
 func showMenu() {
@@ -56,7 +77,7 @@ func showMenu() {
 			showDebug()
 			continue
 		}
-		fmt.Printf("%d: %s\n", k, opcoes[k])
+		printOption(k, opcoes[k])
 	}
 	fmt.Printf("\nOpção: ")
 }
@@ -66,6 +87,29 @@ func askInt() int {
 	fmt.Printf("Digite o número: ")
 	fmt.Scanf("%d", &n)
 	return n
+}
+
+func askInts() []int {
+	fmt.Print("Digite valores separados por espaço. Exemplo: 10 5 20\nDigite os números: ")
+	nums := make([]int, 0)
+	in := bufio.NewReader(os.Stdin)
+	line, err := in.ReadString('\n')
+	if err != nil {
+		fmt.Printf("Valor inesperado: %s. Parando por aqui...", line)
+		return nums
+	}
+
+	line = line[:len(line)-1]
+
+	for _, s := range strings.Split(line, " ") {
+		i, err := strconv.Atoi(s)
+		if err != nil {
+			fmt.Printf("Valor inesperado: %s. Parando por aqui...", s)
+			break
+		}
+		nums = append(nums, i)
+	}
+	return nums
 }
 
 func doOr(n *avl.TreeNode, fail, sucess string) {
@@ -101,6 +145,11 @@ func main() {
 			avl.Tree = avl.Tree.Add(d)
 			doOr(avl.Tree, "Não pôde adicionar", "Ok!")
 
+		case INSERIR_VALORES:
+            ds := askInts()
+			avl.Tree = avl.FromArray(ds)
+			doOr(avl.Tree, "Não pôde criar árvore", "Ok!")
+
 		case BUSCAR_VALOR:
 			d := askInt()
 			doOr(avl.Tree.Serach(d), "Não existe na árvore", "Existe na árvore")
@@ -118,6 +167,9 @@ func main() {
 
 		case VER_POST_ORDER:
 			avl.Tree.PostOrder()
+
+		case VER_BFS:
+			avl.Tree.BFS()
 
 		case INICIAR_HTTP:
 			go http.InitHttp()

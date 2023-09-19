@@ -16,6 +16,17 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
+func FromArray(arr []int) *TreeNode {
+	if len(arr) == 0 {
+		return nil
+	}
+	var tree *TreeNode
+	for i := 0; i < len(arr); i++ {
+		tree = tree.Add(arr[i])
+	}
+	return tree
+}
+
 func create(v int) *TreeNode {
 	return &TreeNode{
 		Value: v,
@@ -47,26 +58,21 @@ func (n *TreeNode) PrettyPrint(padding string) {
 	n.Right.PrettyPrint(padding + "  ")
 }
 
-func (n *TreeNode) print() {
+func (n *TreeNode) BFS() {
 	if n == nil {
 		return
 	}
-	n.printn()
+	fmt.Printf("%d ", n.Value)
 	q := Queue{}
-	q.enqueue(n.Left)
-	q.enqueue(n.Right)
+	q.enqueue(n.Left, n.Right)
 
 	for !q.isEmpty() {
-		l, r := q.dequeue(), q.dequeue()
-		if l == nil && r == nil {
+		x := q.dequeue()
+		if x == nil {
 			continue
 		}
-		l.printn()
-		r.printn()
-		q.enqueue(l.Left)
-		q.enqueue(l.Right)
-		q.enqueue(r.Left)
-		q.enqueue(r.Right)
+		fmt.Printf("%d ", x.Value)
+		q.enqueue(x.Left, x.Right)
 	}
 }
 

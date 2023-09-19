@@ -14,30 +14,43 @@ import (
 
 var port string
 
+/*
+div
+    ul
+        il elemento /il
+        ul
+            il elemento /il
+            il elemento /il
+        /ul
+    /ul
+/div
+*/
+
 func toHtml(n *avl.TreeNode) string {
 	if n == nil {
 		return "<li><div></div></li>"
 	}
 
 	builder := strings.Builder{}
-	if n.Left == nil && n.Right == nil {
-		return fmt.Sprintf(`<li><div>%d</div></li>`, n.Value)
-	}
+	//if n.Left == nil && n.Right == nil {
+	//	return fmt.Sprintf(`<li><div>%d</div></li>`, n.Value)
+	//}
+
 	builder.WriteString(toHtml(n.Left))
 	builder.WriteString(toHtml(n.Right))
 
 	return fmt.Sprintf(`
     <ul>
-        <li><div>%d</div>
-            <ul>%s</ul>
-        </li>
+        <li><div>%d</div></li>
+        %s
     </ul>`, n.Value, builder.String())
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 	tmpl := template.Must(template.ParseFiles("http/tree.html"))
-	err := tmpl.Execute(w, toHtml(avl.Tree))
+    html := fmt.Sprintf("%s", toHtml(avl.Tree))
+	err := tmpl.Execute(w, html)
 	if err != nil {
 		log.Fatal(err)
 	}
