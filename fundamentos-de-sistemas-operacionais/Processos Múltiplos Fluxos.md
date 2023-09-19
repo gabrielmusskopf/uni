@@ -50,3 +50,12 @@ A API tem um escalonador próprio, pois o OS não entende múltiplos fluxos.
 
 ### Desvantagens
 - Sincronismo
+
+
+**Dia:** 13/09/2023 
+**Matéria:** Fundamentos de sistemas operacionais
+**Assunto:** Threads e race condition
+**Tags:** #faculdade #processos 
+
+Monitores mais usados em sistemas de alta performance
+
