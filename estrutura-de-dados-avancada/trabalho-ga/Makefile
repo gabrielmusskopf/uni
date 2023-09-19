@@ -5,5 +5,8 @@ build:
 	mkdir -p ./bin
 	go build -o ./bin/main ./cmd/main.go 
 
-run: build
+run: 
+	./bin/main
+
+start: build
 	./bin/main

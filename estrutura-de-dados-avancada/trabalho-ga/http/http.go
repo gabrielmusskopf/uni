@@ -16,52 +16,28 @@ var port string
 
 func toHtml(n *avl.TreeNode) string {
 	if n == nil {
-		return ""
+		return "<li><div></div></li>"
 	}
 
 	builder := strings.Builder{}
-	if n.Left != nil || n.Right != nil {
-		if n.Left != nil {
-			builder.WriteString(toHtml(n.Left))
-		}
-		if n.Right != nil {
-			builder.WriteString(toHtml(n.Right))
-		}
-	}
 	if n.Left == nil && n.Right == nil {
-		return fmt.Sprintf(`
-        <li><div>%d</div></li>`, n.Value)
+		return fmt.Sprintf(`<li><div>%d</div></li>`, n.Value)
 	}
+	builder.WriteString(toHtml(n.Left))
+	builder.WriteString(toHtml(n.Right))
 
 	return fmt.Sprintf(`
     <ul>
         <li><div>%d</div>
-            <ul>
-                %s
-            </ul>
+            <ul>%s</ul>
         </li>
     </ul>`, n.Value, builder.String())
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
-	layout := fmt.Sprintf(`
-    <!DOCTYPE html>
-    <html>
-        <head>
-            <meta charset="UTF-8" />
-            <link href="/styles/tree.css" type="text/css" rel="stylesheet">
-        <head>
-        <body>
-            <h1>Arvore AVL</h1>
-            <div class="tree">
-                %s
-            </div>
-        </body>
-    </html>`, toHtml(avl.Tree))
-
 	w.Header().Set("Content-Type", "text/html")
-	mpl := template.Must(template.New("tpl").Parse(layout))
-	err := mpl.Execute(w, avl.Tree)
+	tmpl := template.Must(template.ParseFiles("http/tree.html"))
+	err := tmpl.Execute(w, toHtml(avl.Tree))
 	if err != nil {
 		log.Fatal(err)
 	}
