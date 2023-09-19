@@ -1,4 +1,4 @@
-package main
+package avl
 
 import "log"
 
@@ -6,8 +6,8 @@ type Queue struct {
 	values []*TreeNode
 }
 
-func (q *Queue) enqueue(v *TreeNode) {
-	q.values = append(q.values, v)
+func (q *Queue) enqueue(v... *TreeNode) {
+	q.values = append(q.values, v...)
 }
 
 func (q *Queue) dequeue() *TreeNode {

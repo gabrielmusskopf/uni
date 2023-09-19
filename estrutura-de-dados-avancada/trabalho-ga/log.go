@@ -1,4 +1,4 @@
-package main
+package avl
 
 import "fmt"
 
@@ -8,29 +8,29 @@ const (
 	INFO  = "info"
 )
 
-var logLevel string
+var LogLevel string
 
-func isDebug() bool {
-    return logLevel == DEBUG
+func IsDebug() bool {
+    return LogLevel == DEBUG
 }
 
-func toggleDebug() {
-    if logLevel == DEBUG {
-        logLevel = NONE
+func ToggleDebug() {
+    if LogLevel == DEBUG {
+        LogLevel = NONE
     } else {
-        logLevel = DEBUG
+        LogLevel = DEBUG
     }
 }
 
-func info(s string, v ...any) {
-	if logLevel == INFO {
+func Info(s string, v ...any) {
+	if LogLevel == INFO {
 		str := fmt.Sprintf("[info] %s", s)
 		fmt.Printf(str, v...)
 	}
 }
 
-func debug(s string, v ...any) {
-	if logLevel == DEBUG {
+func Debug(s string, v ...any) {
+	if LogLevel == DEBUG {
 		str := fmt.Sprintf("[debug] %s", s)
 		fmt.Printf(str, v...)
 	}

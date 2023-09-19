@@ -1,4 +1,4 @@
-package main
+package avl
 
 import "fmt"
 
@@ -10,16 +10,16 @@ func max(a, b int) int {
 }
 
 type TreeNode struct {
-	value int
-	bf    int
-	left  *TreeNode
-	right *TreeNode
+	Value int
+	BF    int
+	Left  *TreeNode
+	Right *TreeNode
 }
 
 func create(v int) *TreeNode {
 	return &TreeNode{
-		value: v,
-		bf:    0,
+		Value: v,
+		BF:    0,
 	}
 }
 
@@ -27,14 +27,14 @@ func (n *TreeNode) depth() int {
 	if n == nil {
 		return 0
 	}
-	return 1 + max(n.left.depth(), n.right.depth())
+	return 1 + max(n.Left.depth(), n.Right.depth())
 }
 
 func (n *TreeNode) printn() {
-	fmt.Printf("(%d, %d)  ", n.value, n.bf)
+	fmt.Printf("(%d, %d)  ", n.Value, n.BF)
 }
 
-func (n *TreeNode) prettyPrint(padding string) {
+func (n *TreeNode) PrettyPrint(padding string) {
 	if n == nil {
 		return
 	}
@@ -43,8 +43,8 @@ func (n *TreeNode) prettyPrint(padding string) {
 	n.printn()
 	fmt.Println()
 
-	n.left.prettyPrint(padding + "  ")
-	n.right.prettyPrint(padding + "  ")
+	n.Left.PrettyPrint(padding + "  ")
+	n.Right.PrettyPrint(padding + "  ")
 }
 
 func (n *TreeNode) print() {
@@ -53,8 +53,8 @@ func (n *TreeNode) print() {
 	}
 	n.printn()
 	q := Queue{}
-	q.enqueue(n.left)
-	q.enqueue(n.right)
+	q.enqueue(n.Left)
+	q.enqueue(n.Right)
 
 	for !q.isEmpty() {
 		l, r := q.dequeue(), q.dequeue()
@@ -63,62 +63,62 @@ func (n *TreeNode) print() {
 		}
 		l.printn()
 		r.printn()
-		q.enqueue(l.left)
-		q.enqueue(l.right)
-		q.enqueue(r.left)
-		q.enqueue(r.right)
+		q.enqueue(l.Left)
+		q.enqueue(l.Right)
+		q.enqueue(r.Left)
+		q.enqueue(r.Right)
 	}
 }
 
-func (n *TreeNode) preOrder() {
+func (n *TreeNode) PreOrder() {
 	if n == nil {
 		return
 	}
-	fmt.Printf("%d \n", n.value)
-	n.left.preOrder()
-	n.right.preOrder()
+	fmt.Printf("%d \n", n.Value)
+	n.Left.PreOrder()
+	n.Right.PreOrder()
 }
 
-func (n *TreeNode) inOrder() {
+func (n *TreeNode) InOrder() {
 	if n == nil {
 		return
 	}
-	n.left.inOrder()
-	fmt.Printf("%d ", n.value)
-	n.right.inOrder()
+	n.Left.InOrder()
+	fmt.Printf("%d ", n.Value)
+	n.Right.InOrder()
 }
 
-func (n *TreeNode) postOrder() {
+func (n *TreeNode) PostOrder() {
 	if n == nil {
 		return
 	}
-	n.left.postOrder()
-	n.right.postOrder()
-	fmt.Printf("%d ", n.value)
+	n.Left.PostOrder()
+	n.Right.PostOrder()
+	fmt.Printf("%d ", n.Value)
 }
 
 func (n *TreeNode) rotateRight() *TreeNode {
-	x := n.left
-	t2 := x.right
+	x := n.Left
+	t2 := x.Right
 
-	x.right = n
-	n.left = t2
+	x.Right = n
+	n.Left = t2
 
-	n.bf = n.balanceFactor()
-	x.bf = x.balanceFactor()
+	n.BF = n.balanceFactor()
+	x.BF = x.balanceFactor()
 
 	return x
 }
 
 func (n *TreeNode) rotateLeft() *TreeNode {
-	x := n.right
-	t2 := x.left
+	x := n.Right
+	t2 := x.Left
 
-	x.left = n
-	n.right = t2
+	x.Left = n
+	n.Right = t2
 
-	n.bf = n.balanceFactor()
-	x.bf = x.balanceFactor()
+	n.BF = n.balanceFactor()
+	x.BF = x.balanceFactor()
 
 	return x
 }
@@ -128,33 +128,33 @@ func (n *TreeNode) balance() *TreeNode {
 		return n
 	}
 
-	n.bf = n.balanceFactor()
+	n.BF = n.balanceFactor()
 
 	//simples
 	//rotação simples direita
-	if n.bf >= 2 && n.left.bf >= 0 {
-		debug("Nó %d com FB: %d. Rotação simples a direita\n", n.value, n.bf)
+	if n.BF >= 2 && n.Left.BF >= 0 {
+		Debug("Nó %d com FB: %d. Rotação simples a direita\n", n.Value, n.BF)
 		return n.rotateRight()
 	}
 
 	//rotação simples esquerda
-	if n.bf <= -2 && n.right.bf <= 0 {
-		debug("Nó %d com FB: %d. Rotação simples a esquerda\n", n.value, n.bf)
+	if n.BF <= -2 && n.Right.BF <= 0 {
+		Debug("Nó %d com FB: %d. Rotação simples a esquerda\n", n.Value, n.BF)
 		return n.rotateLeft()
 	}
 
 	//duplas
 	//rotação dupla direita
-	if n.bf >= 2 && n.left.bf < 0 {
-		debug("Nó %d com FB: %d. Rotação dupla a direita\n", n.value, n.bf)
-		n.left = n.left.rotateLeft()
+	if n.BF >= 2 && n.Left.BF < 0 {
+		Debug("Nó %d com FB: %d. Rotação dupla a direita\n", n.Value, n.BF)
+		n.Left = n.Left.rotateLeft()
 		return n.rotateRight()
 	}
 
 	//rotação dupla esquerda
-	if n.bf <= -2 && n.right.bf > 0 {
-		debug("Nó %d com FB: %d. Rotação dupla a esquerda\n", n.value, n.bf)
-		n.right = n.right.rotateRight()
+	if n.BF <= -2 && n.Right.BF > 0 {
+		Debug("Nó %d com FB: %d. Rotação dupla a esquerda\n", n.Value, n.BF)
+		n.Right = n.Right.rotateRight()
 		return n.rotateLeft()
 	}
 
@@ -166,51 +166,51 @@ func (n *TreeNode) addRec(v int, i *int) *TreeNode {
 	if n == nil {
 		return create(v)
 	}
-	if v < n.value {
-		debug("%d é menor do que %d\n", v, n.value)
-		n.left = n.left.addRec(v, i)
-	} else if v > n.value {
-		debug("%d é maior do que %d\n", v, n.value)
-		n.right = n.right.addRec(v, i)
+	if v < n.Value {
+		Debug("%d é menor do que %d\n", v, n.Value)
+		n.Left = n.Left.addRec(v, i)
+	} else if v > n.Value {
+		Debug("%d é maior do que %d\n", v, n.Value)
+		n.Right = n.Right.addRec(v, i)
 	}
 
 	return n.balance()
 }
 
-func (n *TreeNode) add(v int) *TreeNode {
+func (n *TreeNode) Add(v int) *TreeNode {
 	i := 0
 	t := n.addRec(v, &i)
-	debug("%d interações para inserir %d\n", i, v)
+	Debug("%d interações para inserir %d\n", i, v)
 	return t
 }
 
 func (n *TreeNode) serachRec(v int, i *int) *TreeNode {
 	*i++
-	if n == nil || n.value == v {
+	if n == nil || n.Value == v {
 		return n
 	}
-	if v < n.value {
-		return n.left.serachRec(v, i)
+	if v < n.Value {
+		return n.Left.serachRec(v, i)
 	}
-	return n.right.serachRec(v, i)
+	return n.Right.serachRec(v, i)
 }
 
-func (n *TreeNode) serach(v int) *TreeNode {
+func (n *TreeNode) Serach(v int) *TreeNode {
 	i := 0
 	t := n.serachRec(v, &i)
-	debug("%d interações para buscar %d\n", i, v)
+	Debug("%d interações para buscar %d\n", i, v)
 	return t
 }
 
 // FB(p) = h(sae(p)) - h(sad(p))
 func (n *TreeNode) balanceFactor() int {
-	return n.left.depth() - n.right.depth()
+	return n.Left.depth() - n.Right.depth()
 }
 
 func (n *TreeNode) min() *TreeNode {
 	current := n
-	for current.left != nil {
-		current = current.left
+	for current.Left != nil {
+		current = current.Left
 	}
 	return current
 }
@@ -221,18 +221,18 @@ func (n *TreeNode) removeRec(v int, i *int) *TreeNode {
 		return n
 	}
 
-	if v < n.value {
-		n.left = n.left.removeRec(v, i)
-	} else if v > n.value {
-		n.right = n.right.removeRec(v, i)
+	if v < n.Value {
+		n.Left = n.Left.removeRec(v, i)
+	} else if v > n.Value {
+		n.Right = n.Right.removeRec(v, i)
 	} else {
 		// está no node para ser deletado
-		if n.left == nil || n.right == nil {
+		if n.Left == nil || n.Right == nil {
 			var temp *TreeNode
-			if n.left != nil {
-				temp = n.left
+			if n.Left != nil {
+				temp = n.Left
 			} else {
-				temp = n.right
+				temp = n.Right
 			}
 
 			if temp == nil {
@@ -243,19 +243,19 @@ func (n *TreeNode) removeRec(v int, i *int) *TreeNode {
 				*n = *temp
 			}
 		} else {
-			temp := n.right.min()
-			n.value = temp.value
-			n.right = n.right.removeRec(temp.value, i)
+			temp := n.Right.min()
+			n.Value = temp.Value
+			n.Right = n.Right.removeRec(temp.Value, i)
 		}
 	}
 
 	return n.balance()
 }
 
-func (n *TreeNode) remove(v int) *TreeNode {
+func (n *TreeNode) Remove(v int) *TreeNode {
 	i := 0
 	t := n.removeRec(v, &i)
-	debug("%d interações para remover %d\n", i, v)
+	Debug("%d interações para remover %d\n", i, v)
 	return t
 }
 
@@ -274,7 +274,7 @@ func (n *TreeNode) countIter(op func(int, *int) *TreeNode) *CountIter {
 func (c *CountIter) exec(v int) *TreeNode {
 	i := 0
     t := c.operation(v, &i)
-	debug("%d interações\n", i)
+	Debug("%d interações\n", i)
     return t
 }
 */
