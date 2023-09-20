@@ -27,6 +27,16 @@ func FromArray(arr []int) *TreeNode {
 	return tree
 }
 
+func (n *TreeNode) AddFromArray(arr []int) *TreeNode {
+	if len(arr) == 0 {
+		return nil
+	}
+	for i := 0; i < len(arr); i++ {
+		n = n.Add(arr[i])
+	}
+	return n
+}
+
 func create(v int) *TreeNode {
 	return &TreeNode{
 		Value: v,

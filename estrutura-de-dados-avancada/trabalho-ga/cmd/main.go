@@ -146,8 +146,12 @@ func main() {
 			doOr(avl.Tree, "Não pôde adicionar", "Ok!")
 
 		case INSERIR_VALORES:
-            ds := askInts()
-			avl.Tree = avl.FromArray(ds)
+			ds := askInts()
+			if avl.Tree == nil {
+				avl.Tree = avl.FromArray(ds)
+			} else {
+                avl.Tree = avl.Tree.AddFromArray(ds)
+            }
 			doOr(avl.Tree, "Não pôde criar árvore", "Ok!")
 
 		case BUSCAR_VALOR:
