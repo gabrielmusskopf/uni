@@ -19,7 +19,6 @@ $$
 \end{equation}
 $$
 ## Método backward substitution (ou Derivation)
-
 #### 1. Generalização
 $$
 \begin{equation}
@@ -56,3 +55,4 @@ $$
 \end{split}
 \end{equation}
 $$
+

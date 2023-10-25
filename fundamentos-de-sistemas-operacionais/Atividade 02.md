@@ -93,7 +93,7 @@ MiB Swap:   7629.0 total,   4702.0 free,   2927.0 used.   6394.4 avail Mem
 
 5.  O kernel ou núcleo contém os componentes centrais do sistema operacional. Assinale a alternativa que apresenta corretamente os referidos componentes
 
-R: B)  Escalonador de processos, gerenciador de memória, gerenciador de E/S e gerenciador de comunicação interprocessos, gerenciador de sistemas de arquivos.
+R: B)  Escalonador de processos, gerenciador de memória, gerenciador de E/S e gerenciador de comunicação inter processos, gerenciador de sistemas de arquivos.
 
 6. Um processo em um sistema operacional pode mudar para o estado de pronto a partir do estado de
 

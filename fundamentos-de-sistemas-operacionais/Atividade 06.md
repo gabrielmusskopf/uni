@@ -19,3 +19,7 @@
 4. Analise as seguintes afirmativas. I. Condições de corrida podem ocorrer se múltiplas threads fazem leituras de um dado compartilhado, mesmo que nenhuma realize escritas. II. O uso de mutex para a exclusão mútua em seções críticas garante que não haja condição de corrida, porém pode ocasionar deadlocks se não for corretamente empregado. III. Monitores são baseados em um tipo abstrato de dados e um controle de acesso aos dados. Apenas funções do monitor acessam os dados e apenas uma thread ou processo pode executar funções de um monitor por vez. IV. Semáforos têm duas operações, P( ) e V( ), sendo que apenas a operação P( ) pode bloquear um processo ou thread.
    
    d) apenas as afirmativas II, III e IV são verdadeiras.
+
+![[Pasted image 20230920161304.png]]
+
+O código não satisfaz a regra 2 (progressão) pois quando uma thread X entra em uma seção crítica, mudando a flag de j (índice correspondente a posição no array de flags) para true, bloqueia a execução da thread Y, deixando-a em busy wait, sem trabalhar, e consumindo ciclos de CPU
