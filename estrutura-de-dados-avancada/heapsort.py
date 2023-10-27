@@ -56,14 +56,14 @@ class Sample:
 
 def heapify(arr, n, i):
     largest = i
-    l = 2 * i + 1
-    random = 2 * i + 2
+    left = 2 * i + 1
+    right = 2 * i + 2
 
-    if l < n and arr[i] < arr[l]:
-        largest = l
+    if left < n and arr[i] < arr[left]:
+        largest = left
 
-    if random < n and arr[largest] < arr[random]:
-        largest = random
+    if right < n and arr[largest] < arr[right]:
+        largest = right 
 
     if largest != i:
         arr[i], arr[largest] = arr[largest], arr[i]

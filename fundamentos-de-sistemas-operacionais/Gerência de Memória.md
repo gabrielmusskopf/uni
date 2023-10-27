@@ -61,3 +61,40 @@ Isso cria uma **fragmentação externa**, muitos espaços pequenos sobrando. Par
 
 ![[Pasted image 20231018210025.png]]
 
+
+**Dia:** 25/10/2023 
+**Matéria:** Fundamentos de sistemas operacionais
+**Assunto:** 
+**Tags:** #memoria 
+
+### Paginação
+Processo distribuído na memória, ao invés de contíguo. Memória agora é vista como uma matriz, com células sendo endereços lógicos de memória
+
+Mais eficiência na **alocação**, e não na leitura das páginas, para atender um maior número de processos
+
+Parte física: **frame**
+Parte lógica: **página**
+(varia de acordo com o autor)
+Ambos tem o mesmo tamanho
+MMU guarda relações entre frame e página
+
+Ocorre fragmentação interna no último frame/página quando o tamanho do processo não é divisível pelo tamanho da página
+
+MMU agora ficou maior, pois precisa armazenar uma tabela grande (tamanho de GB RAM / tamanho de página)
+
+Pode otimizar a tabela do MMU guardando mais informações em novas colunas, como se a página é escrita e leitura
+
+####  TLBS
+Buffer responsável por acessar a tabela de páginas
+Responsável por filtrar acesso a tabela (mesmo que aula passada, limite máximo e mínimo, por exemplo)
+Pedaço da tabela que fica na memória L1
+
+Se a paǵina está no TLB, encontra (*hit*), caso não, ocorre uma **interrupção** (*miss*). Processo volta para fila de aptos
+SO mantém taxa de *miss* para o controle da quantidade de exceção
+
+Na finalização do processo, marca na tabela que endereço está livre
+
+### Segmentação
+
+Agrupar na memória os segmentos de fluxos que sempre são executados juntos
+Funções ajudam a indicar esses grupos
