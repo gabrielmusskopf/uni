@@ -12,8 +12,8 @@ func max(a, b int) int {
 }
 
 type Ordered[T any] interface {
-    Compare(T) int
-    Less(T) bool
+	Compare(T) int
+	Less(T) bool
 }
 
 type TreeNode[K Ordered[K], V any] struct {
@@ -148,11 +148,8 @@ func (n *TreeNode[K, V]) addRec(k K, v V, i *int) *TreeNode[K, V] {
 	if n == nil {
 		return create(k, v)
 	}
-	//if k < n.Value {
-	//if cmp.Less(k, n.Key) {
 	if k.Less(n.Key) {
 		n.Left = n.Left.addRec(k, v, i)
-	//} else if cmp.Less(n.Key, k) {
 	} else if n.Key.Less(k) {
 		n.Right = n.Right.addRec(k, v, i)
 	}
@@ -170,31 +167,37 @@ func (n *TreeNode[K, V]) Add(k K, v V) *TreeNode[K, V] {
 
 func (n *TreeNode[K, V]) searchRec(k K, i *int) *TreeNode[K, V] {
 	*i++
-	//if n == nil || cmp.Compare(n.Key, k) == 0 {
 	if n == nil || n.Key.Compare(k) == 0 {
 		return n
 	}
-	//if cmp.Less(k, n.Key) {
 	if k.Less(n.Key) {
 		return n.Left.searchRec(k, i)
 	}
 	return n.Right.searchRec(k, i)
 }
 
-func (n *TreeNode[K, V]) searchAllByRec(k K, match *[]*TreeNode[K,V], matchFunc func(K,K) bool)  {
+// TODO: Não percorrer todo a árvore
+func (n *TreeNode[K, V]) searchAllByRec(k K, match *[]*TreeNode[K, V], matchFunc func(K, K) bool) {
 	if n == nil {
-        return
+		return
 	}
+    fmt.Printf("%v\n", n.Key)
+
 	if matchFunc(n.Key, k) {
-        *match = append(*match, n)
+        fmt.Printf("%v match!\n", n.Key)
+		*match = append(*match, n)
 	}
-	n.Left.searchAllByRec(k, match, matchFunc)
-	n.Right.searchAllByRec(k, match, matchFunc)
+	if n.Left != nil {
+		n.Left.searchAllByRec(k, match, matchFunc)
+	}
+	if n.Right != nil {
+		n.Right.searchAllByRec(k, match, matchFunc)
+	}
 }
 
-func (n *TreeNode[K, V]) WalkAllBy(walkFunc func(TreeNode[K, V]))  {
+func (n *TreeNode[K, V]) WalkAllBy(walkFunc func(TreeNode[K, V])) {
 	if n == nil {
-        return
+		return
 	}
 	walkFunc(*n)
 	n.Left.WalkAllBy(walkFunc)
@@ -207,9 +210,9 @@ func (n *TreeNode[K, V]) Search(k K) *TreeNode[K, V] {
 }
 
 func (n *TreeNode[K, V]) SearchAllBy(k K, matchFunc func(K, K) bool) []*TreeNode[K, V] {
-    matches := make([]*TreeNode[K,V], 0)
+	matches := make([]*TreeNode[K, V], 0)
 	n.searchAllByRec(k, &matches, matchFunc)
-    return matches
+	return matches
 }
 
 // FB(p) = h(sae(p)) - h(sad(p))
@@ -231,10 +234,8 @@ func (n *TreeNode[K, V]) removeRec(k K, i *int) *TreeNode[K, V] {
 		return n
 	}
 
-	//if cmp.Less(k, n.Key) {
 	if k.Less(n.Key) {
 		n.Left = n.Left.removeRec(k, i)
-	//} else if cmp.Less(n.Key, k) {
 	} else if n.Key.Less(k) {
 		n.Right = n.Right.removeRec(k, i)
 	} else {
