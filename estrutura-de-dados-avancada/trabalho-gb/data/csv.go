@@ -14,6 +14,7 @@ type PersonReader interface {
 }
 
 const (
+    // csv fields
 	CPF = iota
 	RG
 	Name

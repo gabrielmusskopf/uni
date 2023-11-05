@@ -67,15 +67,20 @@ func askValue() string {
 	return strings.TrimSpace(strings.TrimSuffix(input, "\n"))
 }
 
-func printIfExist(p *types.Person) {
-	if p != nil {
+func printPerson(p *types.Person) {
+        fmt.Println()
 		fmt.Printf("Nome:\t\t\t%s\n", p.Name)
 		fmt.Printf("CPF:\t\t\t%s\n", p.CPF)
 		fmt.Printf("RG:\t\t\t%s\n", p.RG)
 		fmt.Printf("Data nascimento:\t%s\n", p.BirthDate)
 		fmt.Printf("Cidade nascimento:\t%s\n", p.BirthCity)
+}
+
+func printIfExist[T trabalhogb.Ordered[T]](n *trabalhogb.TreeNode[T, *types.Person]) {
+	if n != nil {
+        printPerson(n.Value)
 	} else {
-		fmt.Printf("Não existe na árvore")
+		fmt.Printf("\nNão existe na árvore")
 	}
 }
 
@@ -113,14 +118,13 @@ func cmdLoop(index *trabalhogb.Index) {
 				return strings.HasPrefix(string(k1), string(k2))
 			})
 			for _, node := range match {
-				printIfExist(node.Value)
-				println()
+				printIfExist(node)
 			}
 
 		case SEARCH_CPF:
 			fmt.Printf("Digite a chave: ")
 			r := index.CPF.Search(types.String(askValue()))
-			printIfExist(r.Value)
+			printIfExist(r)
 
 		case SEARCH_BIRTH_DATE:
 			fmt.Printf("Digite uma data inicial: ")
@@ -147,9 +151,12 @@ func cmdLoop(index *trabalhogb.Index) {
                     matches = append(matches, node.Value)
                 }
 			})
+            if len(matches) == 0 {
+                fmt.Printf("\nNão existem datas no período informado\n")
+                continue
+            }
 			for _, node := range matches {
-                println()
-				printIfExist(node)
+				printPerson(node)
 			}
 
 		case LEAVE:

@@ -2,6 +2,7 @@ package trabalhogb
 
 import (
 	"fmt"
+	"time"
 )
 
 func max(a, b int) int {
@@ -13,6 +14,7 @@ func max(a, b int) int {
 
 type Ordered[T any] interface {
 	Compare(T) int
+	CompareWithLength(T) int
 	Less(T) bool
 }
 
@@ -176,22 +178,20 @@ func (n *TreeNode[K, V]) searchRec(k K, i *int) *TreeNode[K, V] {
 	return n.Right.searchRec(k, i)
 }
 
-// TODO: Não percorrer todo a árvore
-func (n *TreeNode[K, V]) searchAllByRec(k K, match *[]*TreeNode[K, V], matchFunc func(K, K) bool) {
+// TODO: Do not traverse the entire tree?
+func (n *TreeNode[K, V]) searchAllByRec(k K, match *[]*TreeNode[K, V], matchFunc func(K, K) bool, iter *int) {
 	if n == nil {
 		return
 	}
-    fmt.Printf("%v\n", n.Key)
-
+    *iter++
 	if matchFunc(n.Key, k) {
-        fmt.Printf("%v match!\n", n.Key)
 		*match = append(*match, n)
 	}
-	if n.Left != nil {
-		n.Left.searchAllByRec(k, match, matchFunc)
-	}
-	if n.Right != nil {
-		n.Right.searchAllByRec(k, match, matchFunc)
+	if k.CompareWithLength(n.Key) == -1 || k.CompareWithLength(n.Key) == 0 {
+		n.Left.searchAllByRec(k, match, matchFunc, iter)
+	} 
+	if k.CompareWithLength(n.Key) == 1 || k.CompareWithLength(n.Key) == 0 {
+		n.Right.searchAllByRec(k, match, matchFunc, iter)
 	}
 }
 
@@ -205,13 +205,20 @@ func (n *TreeNode[K, V]) WalkAllBy(walkFunc func(TreeNode[K, V])) {
 }
 
 func (n *TreeNode[K, V]) Search(k K) *TreeNode[K, V] {
-	var i int
-	return n.searchRec(k, &i)
+	var t *TreeNode[K, V]
+	_, _ = measure(func(i *int) {
+		t = n.searchRec(k, i)
+	})
+	//fmt.Printf("buscado %v em %d interações\n", k, iter)
+	return t
 }
 
 func (n *TreeNode[K, V]) SearchAllBy(k K, matchFunc func(K, K) bool) []*TreeNode[K, V] {
 	matches := make([]*TreeNode[K, V], 0)
-	n.searchAllByRec(k, &matches, matchFunc)
+	_, _ = measure(func(i *int) {
+		n.searchAllByRec(k, &matches, matchFunc, i)
+	})
+	//fmt.Printf("buscado %v em %d interações\n", k, iter)
 	return matches
 }
 
@@ -270,9 +277,9 @@ func (n *TreeNode[K, V]) Remove(k K) *TreeNode[K, V] {
 	return n.removeRec(k, &i)
 }
 
-//func measure(f func(*int)) (int, time.Duration) {
-//	iter := 0
-//	start := time.Now()
-//	f(&iter)
-//	return iter, time.Since(start)
-//}
+func measure(f func(*int)) (int, time.Duration) {
+	iter := 0
+	start := time.Now()
+	f(&iter)
+	return iter, time.Since(start)
+}
