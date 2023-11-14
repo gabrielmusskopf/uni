@@ -5,9 +5,11 @@
 
 Na prática: Otimização de chamadas recursivas
 
-### Técnica
+### Técnicas
+##### Top-Down
 Trocar espaço por tempo, ou seja, armazenar valores já computados para evitar utilizar tempo de CPU desnecessariamente (top-down)
 **ou**
 Reescrever de forma interativa (bottom-up)
 
+##### Bottom-Up
 

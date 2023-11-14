@@ -84,6 +84,7 @@ func printIfExist[T trabalhogb.Ordered[T]](n *trabalhogb.TreeNode[T, *types.Pers
 	}
 }
 
+
 func cmdLoop(index *trabalhogb.Index) {
 	opt := -1
 	for opt != LEAVE {

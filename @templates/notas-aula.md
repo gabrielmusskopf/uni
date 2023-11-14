@@ -1,4 +1,4 @@
 **Dia:** {{date}} 
 **Matéria:** 
-**Assunto:** 
+**Assunto:** {{title}}
 **Tags:** 
