@@ -1,0 +1,9 @@
+[submodule "micros/agv"]
+	path = micros/agv
+	url = git@github.com:gabrielmusskopf/AGVRobotProject.git
+[submodule "redes-01/stop"]
+	path = redes-01/stop
+	url = git@github.com:gabrielmusskopf/stop.git
+[submodule "redes-01/whiteboard"]
+	path = redes-01/whiteboard
+	url = git@github.com:gabrielmusskopf/whiteboard.git
