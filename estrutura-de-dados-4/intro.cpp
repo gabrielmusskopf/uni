@@ -13,18 +13,18 @@ int main(int argc, char *argv[]) {
 
   int Z[3] = {1, 2, 3};
 
-  std::cout << sizeof(Z) << endl;
+  cout << sizeof(Z) << endl;
 
   for (int i; i < 3; i++) {
-    std::cout << i << endl;
+    cout << i << endl;
   }
 
   for (int x : Z) {
-    std::cout << x << endl;
+    cout << x << endl;
   }
 
   int n;
-  std::cout << "Digite o tamanho do array: ";
+  cout << "Digite o tamanho do array: ";
   cin >> n;
 
   int B[n];
